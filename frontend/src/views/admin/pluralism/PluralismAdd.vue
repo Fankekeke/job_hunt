@@ -26,7 +26,7 @@
             ]"/>
           </a-form-item>
         </a-col>
-         <a-col :span="8">
+        <a-col :span="8">
           <a-form-item label='结算方式' v-bind="formItemLayout">
             <a-input v-decorator="[
             'paymentMethod',
@@ -34,12 +34,67 @@
             ]"/>
           </a-form-item>
         </a-col>
-
         <a-col :span="24">
-          <a-form-item label='兼职内容' v-bind="formItemLayout">
+          <a-form-item label='岗位描述' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'content',
-             { rules: [{ required: true, message: '请输入名称!' }] }
+            'describe',
+             { rules: [{ required: true, message: '请输入岗位描述!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='学历要求' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'academic',
+            { rules: [{ required: true, message: '请输入学历要求!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作时间' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'workTime',
+            { rules: [{ required: true, message: '请输入工作时间!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作时段' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'workHour',
+            { rules: [{ required: true, message: '请输入工作时段!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作地点' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'workAddress',
+            { rules: [{ required: true, message: '请输入工作地点!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作要求' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'workRequire',
+             { rules: [{ required: true, message: '请输入工作要求!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='所属行业' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'industryId',
+             { rules: [{ required: true, message: '请输入所属行业!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='薪资范围' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'salary',
+             { rules: [{ required: true, message: '请输入薪资范围!' }] }
             ]"/>
           </a-form-item>
         </a-col>

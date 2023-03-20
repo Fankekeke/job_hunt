@@ -41,6 +41,9 @@
         <if test="pluralismInfo.paymentMethod != null">
             AND pi.payment_method = #{pluralismInfo.paymentMethod}
         </if>
+        <if test="pluralismInfo.enterpriseId != null">
+            AND pi.enterprise_id = #{pluralismInfo.enterpriseId}
+        </if>
         order by
         pi.create_date desc
     </select>
