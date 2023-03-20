@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.PluralismInfo;
 import cc.mrbird.febs.cos.service.IPluralismInfoService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,20 @@ public class PluralismInfoController {
     public R page(Page<PluralismInfo> page, PluralismInfo pluralismInfo) {
         return R.ok(pluralismInfoService.selectPluralismPage(page, pluralismInfo));
     }
+
+    /**
+     * 兼职信息上下架
+     *
+     * @param pluralismId 兼职ID
+     * @param status      状态
+     * @return 结果
+     */
+    @GetMapping("/audit")
+    public R audit(@RequestParam("pluralismId") Integer pluralismId, @RequestParam("status") Integer status) {
+        return R.ok(pluralismInfoService.update(Wrappers.<PluralismInfo>lambdaUpdate().set(PluralismInfo::getDelFlag, status).eq(PluralismInfo::getId, pluralismId)));
+    }
+
+
 
     @GetMapping("/{id}")
     public R detail(@PathVariable("id") Integer id) {

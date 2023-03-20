@@ -2,4 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.PluralismInfoMapper">
 
+    <!-- 分页获取兼职信息 -->
+    <select id="selectPluralismPage" resultType="java.util.LinkedHashMap">
+        select
+        pi.id,
+        pi.title,
+        pi.post_name,
+        pi.payment_method,
+        pi.`describe`,
+        pi.academic,
+        pi.work_time,
+        pi.work_hour,
+        pi.work_address,
+        pi.work_require,
+        pi.industry_id,
+        pi.create_date,
+        pi.del_flag,
+        pi.enterprise_id,
+        pi.salary,
+        ei.name as enterpriseName,
+        ei.nature,
+        ei.industry,
+        ei.images,
+        ini.name as industryName
+        from
+        pluralism_info pi
+        left join enterprise_info ei on
+        (ei.id = pi.enterprise_id)
+        left join industry_info ini on (ini.id = pi.industry_id)
+        where
+        1 = 1
+        <if test="pluralismInfo.title != null and pluralismInfo.title != ''">
+            AND pi.title LIKE CONCAT('%',#{pluralismInfo.title},'%')
+        </if>
+        <if test="pluralismInfo.postName != null and pluralismInfo.postName != ''">
+            AND pi.post_name LIKE CONCAT('%',#{pluralismInfo.postName},'%')
+        </if>
+        <if test="pluralismInfo.paymentMethod != null">
+            AND pi.payment_method = #{pluralismInfo.paymentMethod}
+        </if>
+        order by
+        pi.create_date desc
+    </select>
 </mapper>

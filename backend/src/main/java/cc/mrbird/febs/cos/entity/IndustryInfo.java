@@ -42,5 +42,10 @@ public class IndustryInfo implements Serializable {
      */
     private String createDate;
 
+    /**
+     *
+     */
+    private Integer delFlag;
+
 
 }

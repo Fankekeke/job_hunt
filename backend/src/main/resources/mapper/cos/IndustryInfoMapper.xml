@@ -2,4 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.IndustryInfoMapper">
 
+    <!-- 分页获取兼职信息 -->
+    <select id="selectIndustryPage" resultType="java.util.LinkedHashMap">
+        select
+        ini.id,
+        ini.code,
+        ini.name,
+        ini.create_date,
+        ini.del_flag
+        from
+        industry_info ini
+        where
+        1 = 1
+        <if test="industryInfo.code != null and industryInfo.code != ''">
+            AND ini.code LIKE CONCAT('%',#{industryInfo.code},'%')
+        </if>
+        <if test="industryInfo.name != null and industryInfo.name != ''">
+            AND ini.name LIKE CONCAT('%',#{industryInfo.name},'%')
+        </if>
+        order by
+        ini.create_date desc
+    </select>
 </mapper>
