@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.mrbird.febs.cos.dao.CollectInfoMapper">
+
+    <!-- 分页获取收藏信息 -->
+    <select id="selectCollectPage" resultType="java.util.LinkedHashMap">
+        select
+        ci.id,
+        ci.expert_code,
+        ci.enterprise_code,
+        ci.create_date,
+        ei.name as expertName,
+        ei.images as expertImages,
+        ei.employer,
+        ei.`position`,
+        ei2.name as enterpriseName,
+        ei2.images as enterpriseImages
+        from
+        collect_info ci
+        left join expert_info ei on
+        (ei.code = ci.expert_code)
+        left join enterprise_info ei2 on
+        (ei2.code = ci.enterprise_code)
+        where
+        1 = 1
+        <if test="collectInfo.expertName != null and collectInfo.expertName != ''">
+            AND ei.name LIKE CONCAT('%',#{collectInfo.expertName},'%')
+        </if>
+        <if test="collectInfo.enterpriseName != null and collectInfo.enterpriseName != ''">
+            AND ei2.name LIKE CONCAT('%',#{collectInfo.enterpriseName},'%')
+        </if>
+        <if test="collectInfo.enterpriseCode != null and collectInfo.enterpriseCode != ''">
+            AND ci.enterprise_code LIKE CONCAT('%',#{collectInfo.enterpriseCode},'%')
+        </if>
+        order by
+        ci.create_date desc
+    </select>
+
+    <!-- 根据企业编号获取收藏专家信息 -->
+    <select id="selectCollectByEnterprise" resultType="java.util.LinkedHashMap">
+        select
+        ci.id,
+        ci.expert_code,
+        ci.enterprise_code,
+        ci.create_date,
+        ei.name,
+        ei.nationality,
+        ei.images,
+        ei.sex,
+        ei.political_status,
+        ei.native_place,
+        ei.employer,
+        ei.`position`,
+        ei.address,
+        ei.phone,
+        ei.level_one,
+        ei.level_two,
+        ei.birth_date,
+        ei.job_title,
+        ei.special_appellation,
+        ei.mail,
+        ei.fixed_telephone,
+        ei.profile
+        from
+        collect_info ci
+        left join expert_info ei on
+        (ei.code = ci.expert_code)
+        left join enterprise_info ei2 on
+        (ei2.code = ci.enterprise_code)
+        where
+        1 = 1
+        AND ci.enterprise_code = #{enterpriseCode}
+        order by
+        ci.create_date desc
+    </select>
+</mapper>
