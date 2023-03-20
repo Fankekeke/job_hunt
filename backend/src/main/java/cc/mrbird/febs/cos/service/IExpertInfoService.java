@@ -1,15 +1,12 @@
 package cc.mrbird.febs.cos.service;
 
 import cc.mrbird.febs.cos.entity.ExpertInfo;
-import cc.mrbird.febs.cos.entity.vo.ExpertRecommendVo;
 import cc.mrbird.febs.system.domain.User;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 

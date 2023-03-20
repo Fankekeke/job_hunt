@@ -4,21 +4,20 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * 企业收藏
+ * 面试管理
  *
  * @author FanK
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CollectInfo implements Serializable {
+public class InterviewInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,27 +28,34 @@ public class CollectInfo implements Serializable {
     private Integer id;
 
     /**
-     * 专家编号
+     * 员工ID
      */
-    private String expertCode;
-
-
-    private String baseId;
+    private Integer expertId;
 
     /**
-     * 收藏类型（1.企业收藏 2.兼职收藏 3.岗位收藏）
+     * 面试ID
+     */
+    private Integer baseId;
+
+    /**
+     * 面试类型（1.兼职 2.岗位）
      */
     private Integer type;
 
     /**
-     * 企业编号
-     */
-    @TableField(exist = false)
-    private String enterpriseCode;
-
-    /**
-     * 创建时间
+     * 面试时间
      */
     private String createDate;
+
+    /**
+     * 企业ID
+     */
+    private Integer enterpriseId;
+
+    /**
+     * 删除标识
+     */
+    private Integer delFlag;
+
 
 }
