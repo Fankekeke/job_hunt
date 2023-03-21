@@ -37,6 +37,18 @@ public class CollectInfoController {
     }
 
     /**
+     * 获取收藏信息
+     *
+     * @param type   类型
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/collectList")
+    public R collectList(@RequestParam("type") Integer type, @RequestParam("userId") Integer userId) {
+        return R.ok();
+    }
+
+    /**
      * 分页获取收藏信息
      *
      * @param page        分页对象

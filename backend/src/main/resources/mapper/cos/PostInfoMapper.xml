@@ -2,4 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.PostInfoMapper">
 
+    <!-- 分页获取岗位信息 -->
+    <select id="selectPostPage" resultType="java.util.LinkedHashMap">
+        select
+        pi.id,
+        pi.code,
+        pi.address,
+        pi.title,
+        pi.post_name,
+        pi.experience,
+        pi.responsibility,
+        pi.welfare,
+        pi.academic,
+        pi.work_time,
+        pi.work_hour,
+        pi.work_address,
+        pi.work_require,
+        pi.industry_id,
+        pi.create_date,
+        pi.del_flag,
+        pi.enterprise_id,
+        pi.salary,
+        ei.name as enterpriseName,
+        ei.nature,
+        ei.industry,
+        ei.images,
+        ini.name as industryName
+        from
+        post_info pi
+        left join enterprise_info ei on
+        (ei.id = pi.enterprise_id)
+        left join industry_info ini on (ini.id = pi.industry_id)
+        where
+        1 = 1
+        <if test="pluralismInfo.address != null and pluralismInfo.address != ''">
+            AND pi.address LIKE CONCAT('%',#{pluralismInfo.address},'%')
+        </if>
+        <if test="pluralismInfo.postName != null and pluralismInfo.postName != ''">
+            AND pi.post_name LIKE CONCAT('%',#{pluralismInfo.postName},'%')
+        </if>
+        <if test="pluralismInfo.enterpriseId != null">
+            AND pi.enterprise_id = #{pluralismInfo.enterpriseId}
+        </if>
+        order by
+        pi.create_date desc
+    </select>
 </mapper>

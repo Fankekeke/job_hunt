@@ -2,6 +2,9 @@ package cc.mrbird.febs.cos.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,6 +20,12 @@ import lombok.experimental.Accessors;
 public class PostInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键ID
+     */
+    @TableId(type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 岗位编号
@@ -76,7 +85,7 @@ public class PostInfo implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createDate;
+    private String createDate;
 
     /**
      * 上下架（0.下架 1.上架）

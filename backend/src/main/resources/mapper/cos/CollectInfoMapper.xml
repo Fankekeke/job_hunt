@@ -73,4 +73,32 @@
         order by
         ci.create_date desc
     </select>
+
+    <!-- 获取收藏信息 -->
+    <select id="collectList" resultType="java.util.LinkedHashMap">
+        <if test="type != null and type == 2">
+            select ci.`type` ,ci.id ,ci.create_date ,pli.title, pli.post_name  from collect_info ci
+            left join pluralism_info pli on (pli.id = ci.base_id)
+            left join expert_info exi on (exi.code = ci.expert_code)
+            where 1 = 1
+            and ci.`type` = 2
+            order by ci.create_date desc
+        </if>
+        <if test="type != null and type == 3">
+            select * from collect_info ci
+            left join post_info pi on (pi.id = ci.base_id)
+            left join expert_info exi on (exi.code = ci.expert_code)
+            where 1 = 1
+            and ci.`type`  = 3
+            order by ci.create_date desc
+        </if>
+        <if test="type != null and type == 1">
+            select * from collect_info ci
+            left join enterprise_info ei on (ei.id = ci.base_id)
+            left join expert_info exi on (exi.code = ci.expert_code)
+            where 1 = 1
+            and ci.`type` = 1
+            order by ci.create_date desc
+        </if>
+    </select>
 </mapper>
