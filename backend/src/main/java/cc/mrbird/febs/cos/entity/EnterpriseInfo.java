@@ -156,4 +156,5 @@ public class EnterpriseInfo implements Serializable {
      * 企业照片
      */
     private String images;
+
 }

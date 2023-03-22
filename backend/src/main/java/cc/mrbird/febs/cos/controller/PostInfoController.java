@@ -29,7 +29,7 @@ public class PostInfoController {
     private final IEnterpriseInfoService enterpriseInfoService;
 
     /**
-     * 分页获取岗位信息1
+     * 分页获取岗位信息
      *
      * @param page     分页对象
      * @param postInfo 岗位信息
