@@ -7,10 +7,18 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="兼职标题"
+                label="企业名称"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.title"/>
+                <a-input v-model="queryParams.enterpriseName"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="工作地点"
+                :labelCol="{span: 4}"
+                :wrapperCol="{span: 18, offset: 2}">
+                <a-input v-model="queryParams.address"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
@@ -86,15 +94,15 @@
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import pluralismAdd from './PluralismAdd'
-import pluralismEdit from './PluralismEdit'
+import postAdd from './PluralismAdd'
+import postEdit from './PluralismEdit'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
   name: 'pluralism',
-  components: {pluralismAdd, pluralismEdit, RangeDate},
+  components: {postAdd, postEdit, RangeDate},
   data () {
     return {
       advanced: false,
@@ -128,28 +136,14 @@ export default {
     }),
     columns () {
       return [{
-        title: '兼职标题',
-        dataIndex: 'title'
+        title: '岗位编号',
+        dataIndex: 'code'
       }, {
         title: '岗位名称',
         dataIndex: 'postName'
       }, {
-        title: '结算方式',
-        dataIndex: 'paymentMethod',
-        customRender: (text, row, index) => {
-          switch (text) {
-            case 1:
-              return <a-tag>日结</a-tag>
-            case 2:
-              return <a-tag>周结</a-tag>
-            case 3:
-              return <a-tag>月结</a-tag>
-            case 4:
-              return <a-tag>季结</a-tag>
-            default:
-              return '- -'
-          }
-        }
+        title: '工作地点',
+        dataIndex: 'address'
       }, {
         title: '工作时间',
         dataIndex: 'workTime',
