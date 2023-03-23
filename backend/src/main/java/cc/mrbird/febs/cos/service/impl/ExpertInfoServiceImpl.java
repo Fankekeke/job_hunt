@@ -1,9 +1,11 @@
 package cc.mrbird.febs.cos.service.impl;
 
 import cc.mrbird.febs.cos.dao.EnterpriseInfoMapper;
+import cc.mrbird.febs.cos.dao.InterviewInfoMapper;
 import cc.mrbird.febs.cos.entity.EnterpriseInfo;
 import cc.mrbird.febs.cos.entity.ExpertInfo;
 import cc.mrbird.febs.cos.dao.ExpertInfoMapper;
+import cc.mrbird.febs.cos.entity.InterviewInfo;
 import cc.mrbird.febs.cos.service.IExpertInfoService;
 import cc.mrbird.febs.system.domain.User;
 import cn.hutool.core.collection.CollectionUtil;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author FanK
@@ -30,6 +33,8 @@ import java.util.*;
 public class ExpertInfoServiceImpl extends ServiceImpl<ExpertInfoMapper, ExpertInfo> implements IExpertInfoService {
 
     private final EnterpriseInfoMapper enterpriseInfoMapper;
+
+    private final InterviewInfoMapper interviewInfoMapper;
 
     /**
      * 分页获取专家信息
@@ -53,6 +58,53 @@ public class ExpertInfoServiceImpl extends ServiceImpl<ExpertInfoMapper, ExpertI
     @Override
     public IPage<LinkedHashMap<String, Object>> selectUserPage(Page<User> page, User user) {
         return baseMapper.selectUserPage(page, user);
+    }
+
+    /**
+     * 根据求职者获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selectInterByExpert(Integer userId) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("post", Collections.emptyList());
+                put("pluralism", Collections.emptyList());
+            }
+        };
+        if (userId == null) {
+            return result;
+        }
+        // 获取求职者信息
+        ExpertInfo expertInfo = this.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getUserId, userId));
+        if (expertInfo == null) {
+            return result;
+        }
+
+        // 获取面试信息
+        List<InterviewInfo> interviewList = interviewInfoMapper.selectList(Wrappers.<InterviewInfo>lambdaQuery().eq(InterviewInfo::getExpertId, expertInfo.getId()));
+        if (CollectionUtil.isEmpty(interviewList)) {
+            return result;
+        }
+        // 根据类型转MAP
+        Map<Integer, List<InterviewInfo>> integerMap = interviewList.stream().collect(Collectors.groupingBy(InterviewInfo::getType));
+        for (Integer interType : integerMap.keySet()) {
+            switch (interType) {
+                case 1:
+                    List<Integer> interPluralismIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.put("pluralism", interviewInfoMapper.selectInterViewPluralismByIds(interPluralismIds));
+                    break;
+                case 2:
+                    List<Integer> interPostIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.put("post", interviewInfoMapper.selectInterViewPostByIds(interPostIds));
+                    break;
+                default:
+            }
+        }
+
+        return result;
     }
 
     /**

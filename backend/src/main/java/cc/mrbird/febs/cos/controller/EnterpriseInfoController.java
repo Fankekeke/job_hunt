@@ -41,6 +41,17 @@ public class EnterpriseInfoController {
         return R.ok(enterpriseInfoService.selectEnterprisePage(page, enterpriseInfo));
     }
 
+    /**
+     * 根据企业获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/inter/{userId}")
+    public R selectInterViewByEnterprise(@PathVariable("userId") Integer userId) {
+        return R.ok(enterpriseInfoService.selectInterViewByEnterprise(userId));
+    }
+
     @GetMapping("/list/{key}")
     public R listByKey(@PathVariable(value = "key", required = false) String key) {
         return R.ok(enterpriseInfoService.list(Wrappers.<EnterpriseInfo>lambdaQuery()

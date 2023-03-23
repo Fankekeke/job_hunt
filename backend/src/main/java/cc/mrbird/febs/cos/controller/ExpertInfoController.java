@@ -42,9 +42,20 @@ public class ExpertInfoController {
     }
 
     /**
+     * 根据求职者获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/inter/{userId}")
+    public R selectInterByExpert(@PathVariable("userId") Integer userId) {
+        return R.ok(expertInfoService.selectInterByExpert(userId));
+    }
+
+    /**
      * 分页获取游客信息
      *
-     * @param page     分页对象
+     * @param page 分页对象
      * @param user 对象
      * @return 结果
      */

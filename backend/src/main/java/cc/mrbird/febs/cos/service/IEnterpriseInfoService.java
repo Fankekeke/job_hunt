@@ -26,6 +26,14 @@ public interface IEnterpriseInfoService extends IService<EnterpriseInfo> {
     IPage<LinkedHashMap<String, Object>> selectEnterprisePage(Page<EnterpriseInfo> page, EnterpriseInfo enterpriseInfo);
 
     /**
+     * 根据企业获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> selectInterViewByEnterprise(Integer userId);
+
+    /**
      * 根据专家编号获取推荐企业
      *
      * @param expertCode 专家编号

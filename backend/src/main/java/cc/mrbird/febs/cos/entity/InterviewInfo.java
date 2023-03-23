@@ -57,5 +57,8 @@ public class InterviewInfo implements Serializable {
      */
     private Integer delFlag;
 
-
+    /**
+     *
+     */
+    private Integer status;
 }

@@ -1,12 +1,11 @@
 package cc.mrbird.febs.cos.service.impl;
 
-import cc.mrbird.febs.cos.dao.ExpertInfoMapper;
-import cc.mrbird.febs.cos.dao.PluralismInfoMapper;
-import cc.mrbird.febs.cos.dao.PostInfoMapper;
+import cc.mrbird.febs.cos.dao.*;
 import cc.mrbird.febs.cos.entity.EnterpriseInfo;
-import cc.mrbird.febs.cos.dao.EnterpriseInfoMapper;
 import cc.mrbird.febs.cos.entity.ExpertInfo;
+import cc.mrbird.febs.cos.entity.InterviewInfo;
 import cc.mrbird.febs.cos.service.IEnterpriseInfoService;
+import cc.mrbird.febs.cos.service.IInterviewInfoService;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
@@ -22,10 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author FanK
@@ -40,6 +37,8 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
 
     private final PostInfoMapper postInfoMapper;
 
+    private final InterviewInfoMapper interviewInfoMapper;
+
     /**
      * 分页获取企业信息
      *
@@ -50,6 +49,52 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
     @Override
     public IPage<LinkedHashMap<String, Object>> selectEnterprisePage(Page<EnterpriseInfo> page, EnterpriseInfo enterpriseInfo) {
         return baseMapper.selectEnterprisePage(page, enterpriseInfo);
+    }
+
+
+    /**
+     * 根据企业获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selectInterViewByEnterprise(Integer userId) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("post", Collections.emptyList());
+                put("pluralism", Collections.emptyList());
+            }
+        };
+        if (userId == null) {
+            return result;
+        }
+        // 获取企业信息
+        EnterpriseInfo enterpriseInfo = this.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, userId));
+        if (enterpriseInfo == null) {
+            return result;
+        }
+        // 获取面试信息
+        List<InterviewInfo> interviewList = interviewInfoMapper.selectList(Wrappers.<InterviewInfo>lambdaQuery().eq(InterviewInfo::getEnterpriseId, enterpriseInfo.getId()));
+        if (CollectionUtil.isEmpty(interviewList)) {
+            return result;
+        }
+        // 根据类型转MAP
+        Map<Integer, List<InterviewInfo>> integerMap = interviewList.stream().collect(Collectors.groupingBy(InterviewInfo::getType));
+        for (Integer interType : integerMap.keySet()) {
+            switch (interType) {
+                case 1:
+                    List<Integer> interPluralismIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.put("pluralism", interviewInfoMapper.selectInterViewPluralismByIds(interPluralismIds));
+                    break;
+                case 2:
+                    List<Integer> interPostIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.put("post", interviewInfoMapper.selectInterViewPostByIds(interPostIds));
+                    break;
+                default:
+            }
+        }
+        return result;
     }
 
     /**
