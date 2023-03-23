@@ -1,6 +1,8 @@
 package cc.mrbird.febs.cos.service.impl;
 
 import cc.mrbird.febs.cos.dao.ExpertInfoMapper;
+import cc.mrbird.febs.cos.dao.PluralismInfoMapper;
+import cc.mrbird.febs.cos.dao.PostInfoMapper;
 import cc.mrbird.febs.cos.entity.EnterpriseInfo;
 import cc.mrbird.febs.cos.dao.EnterpriseInfoMapper;
 import cc.mrbird.febs.cos.entity.ExpertInfo;
@@ -33,6 +35,10 @@ import java.util.List;
 public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper, EnterpriseInfo> implements IEnterpriseInfoService {
 
     private final ExpertInfoMapper expertInfoMapper;
+
+    private final PluralismInfoMapper pluralismInfoMapper;
+
+    private final PostInfoMapper postInfoMapper;
 
     /**
      * 分页获取企业信息
@@ -117,6 +123,18 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
             return enterpriseInfo.getCode();
         }
         return enterpriseCode;
+    }
+
+    /**
+     * 根据企业查询统计信息
+     *
+     * @param enterpriseId 企业ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selectRateByEnterprise(Integer enterpriseId) {
+
+        return null;
     }
 
     /**

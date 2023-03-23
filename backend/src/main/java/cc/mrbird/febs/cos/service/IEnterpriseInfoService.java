@@ -19,7 +19,7 @@ public interface IEnterpriseInfoService extends IService<EnterpriseInfo> {
     /**
      * 分页获取企业信息
      *
-     * @param page 分页对象
+     * @param page           分页对象
      * @param enterpriseInfo 企业信息
      * @return 结果
      */
@@ -48,4 +48,12 @@ public interface IEnterpriseInfoService extends IService<EnterpriseInfo> {
      * @return 结果
      */
     String enterpriseRegister(String enterpriseCode);
+
+    /**
+     * 根据企业查询统计信息
+     *
+     * @param enterpriseId 企业ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> selectRateByEnterprise(Integer enterpriseId);
 }
