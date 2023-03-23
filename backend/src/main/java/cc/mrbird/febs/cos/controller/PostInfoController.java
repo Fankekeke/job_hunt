@@ -38,7 +38,8 @@ public class PostInfoController {
     @GetMapping("/page")
     public R page(Page<PostInfo> page, PostInfo postInfo) {
         if (postInfo.getEnterpriseId() != null) {
-            EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getId, postInfo.getEnterpriseId()));
+            EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, postInfo.getEnterpriseId()));
+            postInfo.setEnterpriseId(enterpriseInfo.getId());
         }
         return R.ok(postInfoService.selectPostPage(page, postInfo));
     }

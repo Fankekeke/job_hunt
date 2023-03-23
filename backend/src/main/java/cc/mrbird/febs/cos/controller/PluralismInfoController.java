@@ -2,7 +2,9 @@ package cc.mrbird.febs.cos.controller;
 
 
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.entity.EnterpriseInfo;
 import cc.mrbird.febs.cos.entity.PluralismInfo;
+import cc.mrbird.febs.cos.service.IEnterpriseInfoService;
 import cc.mrbird.febs.cos.service.IPluralismInfoService;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -24,6 +26,8 @@ public class PluralismInfoController {
 
     private final IPluralismInfoService pluralismInfoService;
 
+    private final IEnterpriseInfoService enterpriseInfoService;
+
     /**
      * 分页获取兼职信息
      *
@@ -33,6 +37,10 @@ public class PluralismInfoController {
      */
     @GetMapping("/page")
     public R page(Page<PluralismInfo> page, PluralismInfo pluralismInfo) {
+        if (pluralismInfo.getEnterpriseId() != null) {
+            EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, pluralismInfo.getEnterpriseId()));
+            pluralismInfo.setEnterpriseId(enterpriseInfo.getId());
+        }
         return R.ok(pluralismInfoService.selectPluralismPage(page, pluralismInfo));
     }
 

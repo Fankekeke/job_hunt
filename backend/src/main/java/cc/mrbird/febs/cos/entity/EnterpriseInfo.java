@@ -157,4 +157,5 @@ public class EnterpriseInfo implements Serializable {
      */
     private String images;
 
+    private Integer userId;
 }

@@ -136,4 +136,6 @@ public class ExpertInfo implements Serializable {
      * 是否注册 0.否 1.是
      */
     private Integer hasExist;
+
+    private Integer userId;
 }
