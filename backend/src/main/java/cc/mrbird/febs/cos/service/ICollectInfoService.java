@@ -30,4 +30,13 @@ public interface ICollectInfoService extends IService<CollectInfo> {
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> selectCollectByEnterprise(String enterpriseCode);
+
+    /**
+     * 分页获取收藏信息
+     *
+     * @param page 分页对象
+     * @param collectInfo 收藏信息
+     * @return 结果
+     */
+    IPage<LinkedHashMap<String, Object>> collectList(Page<CollectInfo> page, CollectInfo collectInfo);
 }

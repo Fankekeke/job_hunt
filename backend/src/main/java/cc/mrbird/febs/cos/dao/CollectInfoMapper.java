@@ -32,11 +32,11 @@ public interface CollectInfoMapper extends BaseMapper<CollectInfo> {
     List<LinkedHashMap<String, Object>> selectCollectByEnterprise(@Param("enterpriseCode") String enterpriseCode);
 
     /**
-     * 获取收藏信息
+     * 分页获取收藏信息
      *
-     * @param type   类型
-     * @param userId 用户ID
+     * @param page 分页对象
+     * @param collectInfo 收藏信息
      * @return 结果
      */
-    List<LinkedHashMap<String, Object>> collectList(@Param("type") Integer type, @Param("userId") Integer userId);
+    IPage<LinkedHashMap<String, Object>> collectList(Page<CollectInfo> page, @Param("collectInfo") CollectInfo collectInfo);
 }

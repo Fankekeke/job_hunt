@@ -4,6 +4,168 @@
 
     <!-- 分页获取面试信息 -->
     <select id="selectInterViewPage" resultType="java.util.LinkedHashMap">
-
+        <if test="interviewInfo.type != null and interviewInfo.type == 1">
+            select
+            ini.id,
+            ini.expert_id,
+            ini.base_id,
+            ini.`type`,
+            ini.create_date,
+            ini.enterprise_id,
+            ini.del_flag,
+            ini.status,
+            pli.title,
+            pli.post_name,
+            pli.payment_method,
+            pli.academic,
+            pli.work_time,
+            pli.work_hour,
+            pli.work_address,
+            pli.salary,
+            exi.name as expertName,
+            exi.images as expertImages,
+            eni.name as enterName,
+            eni.images as enterImages
+            from
+            interview_info ini
+            left join pluralism_info pli on
+            (pli.id = ini.base_id)
+            left join expert_info exi on
+            (exi.id = ini.expert_id)
+            left join enterprise_info eni on
+            (eni.id = ini.enterprise_id)
+            where 1 = 1
+            <if test="interviewInfo.title != null and interviewInfo.title != ''">
+                AND pli.title LIKE CONCAT('%',#{interviewInfo.title},'%')
+            </if>
+            <if test="interviewInfo.postName != null and interviewInfo.postName != ''">
+                AND pli.post_name LIKE CONCAT('%',#{interviewInfo.postName},'%')
+            </if>
+            <if test="interviewInfo.paymentMethod != null">
+                AND pli.payment_method = #{interviewInfo.paymentMethod}
+            </if>
+            <if test="interviewInfo.status != null">
+                AND ini.status = #{interviewInfo.status}
+            </if>
+            order by
+            ini.create_date desc
+        </if>
+        <if test="interviewInfo.type != null and interviewInfo.type == 2">
+            select
+            ini.id,
+            ini.expert_id,
+            ini.base_id,
+            ini.`type`,
+            ini.create_date,
+            ini.enterprise_id,
+            ini.del_flag,
+            ini.status,
+            pi.post_name,
+            pi.academic,
+            pi.work_time,
+            pi.work_hour,
+            pi.work_address,
+            pi.salary,
+            exi.name as expertName,
+            exi.images as expertImages,
+            eni.name as enterName,
+            eni.images as enterImages
+            from
+            interview_info ini
+            left join post_info pi on
+            (pli.id = ini.base_id)
+            left join expert_info exi on
+            (exi.id = ini.expert_id)
+            left join enterprise_info eni on
+            (eni.id = ini.enterprise_id)
+            where 1 = 1
+            <if test="interviewInfo.postName != null and interviewInfo.postName != ''">
+                AND pli.post_name LIKE CONCAT('%',#{interviewInfo.postName},'%')
+            </if>
+            <if test="interviewInfo.status != null">
+                AND ini.status = #{interviewInfo.status}
+            </if>
+            order by
+            ini.create_date desc
+        </if>
     </select>
+
+    <!-- 根据面试ID获取岗位面试信息 -->
+    <select id="selectInterViewPostByIds" resultType="java.util.LinkedHashMap">
+        select
+        ini.id,
+        ini.expert_id,
+        ini.base_id,
+        ini.`type`,
+        ini.create_date,
+        ini.enterprise_id,
+        ini.del_flag,
+        ini.status,
+        pi.post_name,
+        pi.academic,
+        pi.work_time,
+        pi.work_hour,
+        pi.work_address,
+        pi.salary,
+        exi.name as expertName,
+        exi.images as expertImages,
+        eni.name as enterName,
+        eni.images as enterImages
+        from
+        interview_info ini
+        left join post_info pi on
+        (pli.id = ini.base_id)
+        left join expert_info exi on
+        (exi.id = ini.expert_id)
+        left join enterprise_info eni on
+        (eni.id = ini.enterprise_id)
+        where 1 = 1
+        AND ini.id IN
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by
+        ini.create_date desc
+    </select>
+
+    <!-- 根据面试ID获取兼职面试信息 -->
+    <select id="selectInterViewPluralismByIds" resultType="java.util.LinkedHashMap">
+        select
+        ini.id,
+        ini.expert_id,
+        ini.base_id,
+        ini.`type`,
+        ini.create_date,
+        ini.enterprise_id,
+        ini.del_flag,
+        ini.status,
+        pli.title,
+        pli.post_name,
+        pli.payment_method,
+        pli.academic,
+        pli.work_time,
+        pli.work_hour,
+        pli.work_address,
+        pli.salary,
+        exi.name as expertName,
+        exi.images as expertImages,
+        eni.name as enterName,
+        eni.images as enterImages
+        from
+        interview_info ini
+        left join pluralism_info pli on
+        (pli.id = ini.base_id)
+        left join expert_info exi on
+        (exi.id = ini.expert_id)
+        left join enterprise_info eni on
+        (eni.id = ini.enterprise_id)
+        where 1 = 1
+        AND ini.id IN
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by
+        ini.create_date desc
+    </select>
+
 </mapper>

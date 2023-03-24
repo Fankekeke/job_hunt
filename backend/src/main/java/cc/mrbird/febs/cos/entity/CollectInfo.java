@@ -52,4 +52,13 @@ public class CollectInfo implements Serializable {
      */
     private String createDate;
 
+    @TableField(exist = false)
+    private String expertName;
+
+    @TableField(exist = false)
+    private String enterpriseName;
+
+    @TableField(exist = false)
+    private String postName;
+
 }

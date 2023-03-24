@@ -39,4 +39,16 @@ public class CollectInfoServiceImpl extends ServiceImpl<CollectInfoMapper, Colle
     public List<LinkedHashMap<String, Object>> selectCollectByEnterprise(String enterpriseCode) {
         return baseMapper.selectCollectByEnterprise(enterpriseCode);
     }
+
+    /**
+     * 分页获取收藏信息
+     *
+     * @param page 分页对象
+     * @param collectInfo 收藏信息
+     * @return 结果
+     */
+    @Override
+    public IPage<LinkedHashMap<String, Object>> collectList(Page<CollectInfo> page, CollectInfo collectInfo) {
+        return baseMapper.collectList(page, collectInfo);
+    }
 }

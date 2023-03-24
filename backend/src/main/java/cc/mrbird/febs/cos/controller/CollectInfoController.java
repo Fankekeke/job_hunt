@@ -62,7 +62,7 @@ public class CollectInfoController {
 
     @GetMapping("/collectExpert/check")
     public R collectExpert(@RequestParam("enterpriseCode") String enterpriseCode, @RequestParam("expertCode") String expertCode) {
-        Integer count = collectInfoService.count(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getEnterpriseCode, enterpriseCode).eq(CollectInfo::getExpertCode, expertCode));
+        int count = collectInfoService.count(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getEnterpriseCode, enterpriseCode).eq(CollectInfo::getExpertCode, expertCode));
         if (count >= 1) {
             return R.ok(false);
         }
