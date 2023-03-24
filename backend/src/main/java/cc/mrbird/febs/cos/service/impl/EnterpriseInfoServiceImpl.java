@@ -1,9 +1,7 @@
 package cc.mrbird.febs.cos.service.impl;
 
 import cc.mrbird.febs.cos.dao.*;
-import cc.mrbird.febs.cos.entity.EnterpriseInfo;
-import cc.mrbird.febs.cos.entity.ExpertInfo;
-import cc.mrbird.febs.cos.entity.InterviewInfo;
+import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.IEnterpriseInfoService;
 import cc.mrbird.febs.cos.service.IInterviewInfoService;
 import cn.hutool.core.collection.CollectionUtil;
@@ -94,6 +92,56 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
                 default:
             }
         }
+        return result;
+    }
+
+    /**
+     * 根据岗位ID获取详情
+     *
+     * @param postId 岗位ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selectPostDetail(Integer postId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        if (postId == null) {
+            return null;
+        }
+        // 获取岗位信息
+        PostInfo postInfo = postInfoMapper.selectById(postId);
+        if (postInfo == null) {
+            return null;
+        }
+        // 获取公司信息
+        EnterpriseInfo enterpriseInfo = baseMapper.selectById(postInfo.getEnterpriseId());
+        result.put("post", postInfo);
+        result.put("enterprise", enterpriseInfo);
+        return result;
+    }
+
+    /**
+     * 根据兼职ID获取详情
+     *
+     * @param pluralismId 兼职ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selectPluralismDetail(Integer pluralismId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        if (pluralismId == null) {
+            return null;
+        }
+        // 获取兼职信息
+        PluralismInfo pluralismInfo = pluralismInfoMapper.selectById(pluralismId);
+        if (pluralismInfo == null) {
+            return null;
+        }
+        // 获取公司信息
+        EnterpriseInfo enterpriseInfo = baseMapper.selectById(pluralismInfo.getEnterpriseId());
+        result.put("pluralism", pluralismInfo);
+        result.put("enterprise", enterpriseInfo);
         return result;
     }
 

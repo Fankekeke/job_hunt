@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="新增兼职" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="新增岗位" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -11,14 +11,6 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="8">
-          <a-form-item label='兼职标题' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'title',
-            { rules: [{ required: true, message: '请输入名称!' }] }
-            ]"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="8">
           <a-form-item label='岗位名称' v-bind="formItemLayout">
             <a-input v-decorator="[
             'postName',
@@ -27,18 +19,26 @@
           </a-form-item>
         </a-col>
         <a-col :span="8">
-          <a-form-item label='结算方式' v-bind="formItemLayout">
+          <a-form-item label='工作地点' v-bind="formItemLayout">
             <a-input v-decorator="[
-            'paymentMethod',
-            { rules: [{ required: true, message: '请输入结算方式!' }] }
+            'address',
+            { rules: [{ required: true, message: '请输入工作地点!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='岗位描述' v-bind="formItemLayout">
+          <a-form-item label='所需经验' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'describe',
-             { rules: [{ required: true, message: '请输入岗位描述!' }] }
+            'experience',
+             { rules: [{ required: true, message: '请输入所需经验!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label='岗位职责' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'responsibility',
+             { rules: [{ required: true, message: '请输入岗位职责!' }] }
             ]"/>
           </a-form-item>
         </a-col>
@@ -95,6 +95,14 @@
             <a-textarea :rows="6" v-decorator="[
             'salary',
              { rules: [{ required: true, message: '请输入薪资范围!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="16">
+          <a-form-item label='福利信息' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'welfare',
+             { rules: [{ required: true, message: '请输入福利信息!' }] }
             ]"/>
           </a-form-item>
         </a-col>
@@ -169,16 +177,10 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
-      // 获取图片List
-      let images = []
-      this.fileList.forEach(image => {
-        images.push(image.response)
-      })
       this.form.validateFields((err, values) => {
-        values.images = images.length > 0 ? images.join(',') : null
         if (!err) {
           this.loading = true
-          this.$post('/cos/pluralism-info', {
+          this.$post('/cos/post-info', {
             ...values
           }).then((r) => {
             this.reset()

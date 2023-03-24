@@ -10,7 +10,7 @@
     </template>
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
-        <a-col :span="12">
+        <a-col :span="8">
           <a-form-item label='兼职标题' v-bind="formItemLayout">
             <a-input v-decorator="[
             'title',
@@ -18,42 +18,84 @@
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
-          <a-form-item label='上传人' v-bind="formItemLayout">
+        <a-col :span="8">
+          <a-form-item label='岗位名称' v-bind="formItemLayout">
             <a-input v-decorator="[
-            'publisher',
-            { rules: [{ required: true, message: '请输入上传人!' }] }
+            'postName',
+            { rules: [{ required: true, message: '请输入岗位名称!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='结算方式' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'paymentMethod',
+            { rules: [{ required: true, message: '请输入结算方式!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='兼职内容' v-bind="formItemLayout">
+          <a-form-item label='岗位描述' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'content',
-             { rules: [{ required: true, message: '请输入名称!' }] }
+            'describe',
+             { rules: [{ required: true, message: '请输入岗位描述!' }] }
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="24">
-          <a-form-item label='图册' v-bind="formItemLayout">
-            <a-upload
-              name="avatar"
-              action="http://127.0.0.1:9527/file/fileUpload/"
-              list-type="picture-card"
-              :file-list="fileList"
-              @preview="handlePreview"
-              @change="picHandleChange"
-            >
-              <div v-if="fileList.length < 8">
-                <a-icon type="plus" />
-                <div class="ant-upload-text">
-                  Upload
-                </div>
-              </div>
-            </a-upload>
-            <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-              <img alt="example" style="width: 100%" :src="previewImage" />
-            </a-modal>
+        <a-col :span="8">
+          <a-form-item label='学历要求' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'academic',
+            { rules: [{ required: true, message: '请输入学历要求!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作时间' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'workTime',
+            { rules: [{ required: true, message: '请输入工作时间!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作时段' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'workHour',
+            { rules: [{ required: true, message: '请输入工作时段!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作地点' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'workAddress',
+            { rules: [{ required: true, message: '请输入工作地点!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作要求' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'workRequire',
+             { rules: [{ required: true, message: '请输入工作要求!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='所属行业' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'industryId',
+             { rules: [{ required: true, message: '请输入所属行业!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='薪资范围' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'salary',
+             { rules: [{ required: true, message: '请输入薪资范围!' }] }
+            ]"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -130,7 +172,7 @@ export default {
     },
     setFormValues ({...pluralism}) {
       this.rowId = pluralism.id
-      let fields = ['title', 'content', 'publisher']
+      let fields = ['title', 'postName', 'paymentMethod', 'describe', 'academic', 'workTime', 'workHour', 'workAddress', 'workRequire', 'industryId', 'createDate', 'delFlag', 'enterpriseId', 'salary']
       let obj = {}
       Object.keys(pluralism).forEach((key) => {
         if (key === 'images') {

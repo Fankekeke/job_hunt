@@ -165,6 +165,16 @@ export default {
           }
         }
       }, {
+        title: '薪资',
+        dataIndex: 'salary',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
         title: '工作地点',
         dataIndex: 'workAddress',
         customRender: (text, row, index) => {
@@ -241,7 +251,7 @@ export default {
     },
     handlepluralismAddSuccess () {
       this.pluralismAdd.visiable = false
-      this.$message.success('新增兼职成功')
+      this.$message.success('新增岗位成功')
       this.search()
     },
     edit (record) {
@@ -253,7 +263,7 @@ export default {
     },
     handlepluralismEditSuccess () {
       this.pluralismEdit.visiable = false
-      this.$message.success('修改兼职成功')
+      this.$message.success('修改岗位成功')
       this.search()
     },
     handleDeptChange (value) {

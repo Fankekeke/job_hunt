@@ -14,7 +14,7 @@
         <a-col :span="8"><b>岗位名称：</b>
           {{ pluralismData.postName }}
         </a-col>
-        <a-col :span="8"><b>统一社会信用代码：</b>
+        <a-col :span="8"><b>结算方式：</b>
           <span v-if="pluralismData.paymentMethod == 1">日结</span>
           <span v-if="pluralismData.paymentMethod == 2">周结</span>
           <span v-if="pluralismData.paymentMethod == 3">月结</span>

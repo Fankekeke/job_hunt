@@ -42,6 +42,28 @@ public class EnterpriseInfoController {
     }
 
     /**
+     * 根据岗位ID获取详情
+     *
+     * @param postId 岗位ID
+     * @return 结果
+     */
+    @GetMapping("/post/detail")
+    public R selectPostDetail(@PathVariable("postId") Integer postId) {
+        return R.ok(enterpriseInfoService.selectPostDetail(postId));
+    }
+
+    /**
+     * 根据兼职ID获取详情
+     *
+     * @param pluralismId 兼职ID
+     * @return 结果
+     */
+    @GetMapping("/pluralism/detail")
+    public R selectPluralismDetail(@PathVariable("pluralismId") Integer pluralismId) {
+        return R.ok(enterpriseInfoService.selectPluralismDetail(pluralismId));
+    }
+
+    /**
      * 根据企业获取面试信息
      *
      * @param userId 用户ID

@@ -34,6 +34,22 @@ public interface IEnterpriseInfoService extends IService<EnterpriseInfo> {
     LinkedHashMap<String, Object> selectInterViewByEnterprise(Integer userId);
 
     /**
+     * 根据岗位ID获取详情
+     *
+     * @param postId 岗位ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> selectPostDetail(Integer postId);
+
+    /**
+     * 根据兼职ID获取详情
+     *
+     * @param pluralismId 兼职ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> selectPluralismDetail(Integer pluralismId);
+
+    /**
      * 根据专家编号获取推荐企业
      *
      * @param expertCode 专家编号

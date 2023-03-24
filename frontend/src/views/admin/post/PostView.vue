@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="兼职详情" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="岗位详情" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose" type="danger">
         关闭
@@ -7,22 +7,13 @@
     </template>
     <div style="font-size: 13px;font-family: SimHei" v-if="pluralismData !== null">
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">兼职信息</span></a-col>
-        <a-col :span="8"><b>兼职标题：</b>
-          {{ pluralismData.title }}
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">岗位信息</span></a-col>
+        <a-col :span="8"><b>岗位编号：</b>
+          {{ pluralismData.code }}
         </a-col>
         <a-col :span="8"><b>岗位名称：</b>
           {{ pluralismData.postName }}
         </a-col>
-        <a-col :span="8"><b>统一社会信用代码：</b>
-          <span v-if="pluralismData.paymentMethod == 1">日结</span>
-          <span v-if="pluralismData.paymentMethod == 2">周结</span>
-          <span v-if="pluralismData.paymentMethod == 3">月结</span>
-          <span v-if="pluralismData.paymentMethod == 4">季结</span>
-        </a-col>
-      </a-row>
-      <br/>
-      <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col :span="8"><b>学历要求：</b>
           <span v-if="pluralismData.academic == 1">小学</span>
           <span v-if="pluralismData.academic == 2">初中</span>
@@ -30,6 +21,22 @@
           <span v-if="pluralismData.academic == 4">专科</span>
           <span v-if="pluralismData.academic == 5">本科</span>
           <span v-if="pluralismData.academic == 6">研究生</span>
+        </a-col>
+      </a-row>
+      <br/>
+      <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">所需经验</span></a-col>
+        {{ pluralismData.experience }}
+      </a-row>
+      <br/>
+      <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">岗位职责</span></a-col>
+        {{ pluralismData.responsibility }}
+      </a-row>
+      <br/>
+      <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col :span="8"><b>福利：</b>
+          {{ pluralismData.welfare }}
         </a-col>
         <a-col :span="8"><b>工作时间：</b>
           {{ pluralismData.workTime }}
@@ -41,16 +48,13 @@
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col :span="8"><b>工作地点：</b>
-          {{ pluralismData.workAddress }}
+          {{ pluralismData.address }}
         </a-col>
         <a-col :span="16"><b>所属行业：</b>
           {{ pluralismData.industryName }}
         </a-col>
         <br/>
         <br/>
-        <a-col :span="24"><b>岗位描述：</b>
-          {{ pluralismData.describe }}
-        </a-col>
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
