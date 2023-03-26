@@ -59,7 +59,7 @@ public class InterviewInfo implements Serializable {
     private Integer delFlag;
 
     /**
-     *
+     * 状态（1.已投递 2.已查看 3.不符合 4.邀约面试 5.面试结束）
      */
     private Integer status;
 

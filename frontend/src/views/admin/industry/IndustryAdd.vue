@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="新增行业" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="新增行业" @cancel="onClose" :width="500">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -10,7 +10,7 @@
     </template>
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
-        <a-col :span="12">
+        <a-col :span="24">
           <a-form-item label='行业名称' v-bind="formItemLayout">
             <a-input v-decorator="[
             'name',
@@ -18,7 +18,7 @@
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :span="24">
           <a-form-item label='使用状态' v-bind="formItemLayout">
             <a-switch v-decorator="[
             'delFlag',
@@ -96,9 +96,11 @@ export default {
       this.reset()
       this.$emit('close')
     },
-    handleSubmit () {)
+    handleSubmit () {
       this.form.validateFields((err, values) => {
         if (!err) {
+          console.log(values)
+          values.delFlag = values.delFlag ? 1 : 0
           this.loading = true
           this.$post('/cos/industry-info', {
             ...values

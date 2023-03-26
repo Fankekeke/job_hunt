@@ -86,8 +86,8 @@
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import industryAdd from './industryAdd'
-import industryEdit from './industryEdit'
+import industryAdd from './IndustryAdd'
+import industryEdit from './IndustryEdit'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
@@ -148,9 +148,9 @@ export default {
         dataIndex: 'delFlag',
         customRender: (text, row, index) => {
           switch (text) {
-            case 0:
-              return <a-tag>使用中</a-tag>
             case 1:
+              return <a-tag>使用中</a-tag>
+            case 0:
               return <a-tag color="red">未使用</a-tag>
             default:
               return '- -'

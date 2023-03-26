@@ -1,18 +1,15 @@
 <template>
   <a-card :bordered="false" hoverable style="margin-top: 130px">
-    <div style="text-align: left;font-size: 14px;margin-bottom: 30px"><b>企智对接系统</b></div>
+    <div style="text-align: left;font-size: 14px;margin-bottom: 30px"><b>大学生兼职平台</b></div>
     <div class="user-layout-register">
       <a-form ref="formRegister" :autoFormCreate="(form)=>{this.form = form}" id="formRegister">
         <a-form-item>
           <a-radio-group default-value="1" v-model="registType" button-style="solid">
-            <a-radio-button value="1">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;游客&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </a-radio-button>
             <a-radio-button value="2">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;企业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我要招聘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a-radio-button>
             <a-radio-button value="3">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;专家&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我要求职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </a-radio-button>
           </a-radio-group>
         </a-form-item>

@@ -77,25 +77,25 @@
         </template>
       </a-table>
     </div>
-    <pluralism-add
+    <post-add
       v-if="pluralismAdd.visiable"
       @close="handlepluralismAddClose"
       @success="handlepluralismAddSuccess"
       :pluralismAddVisiable="pluralismAdd.visiable">
-    </pluralism-add>
-    <pluralism-edit
+    </post-add>
+    <post-edit
       ref="pluralismEdit"
       @close="handlepluralismEditClose"
       @success="handlepluralismEditSuccess"
       :pluralismEditVisiable="pluralismEdit.visiable">
-    </pluralism-edit>
+    </post-edit>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import postAdd from './PluralismAdd'
-import postEdit from './PluralismEdit'
+import postAdd from './PostAdd'
+import postEdit from './PostEdit'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
