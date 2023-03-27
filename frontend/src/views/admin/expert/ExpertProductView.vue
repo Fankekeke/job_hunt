@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="专家项目信息" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="求职者项目信息" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose" type="danger">
         关闭
@@ -8,8 +8,8 @@
     <div style="font-size: 13px;font-family: SimHei">
       <div style="font-size: 13px;font-family: SimHei" v-if="expertData !== null">
         <a-row style="padding-left: 24px;padding-right: 24px;">
-          <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">专家信息</span></a-col>
-          <a-col :span="8"><b>专家姓名：</b>
+          <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">求职者信息</span></a-col>
+          <a-col :span="8"><b>求职者姓名：</b>
             {{ expertData.name }}
           </a-col>
           <a-col :span="8"><b>民族：</b>

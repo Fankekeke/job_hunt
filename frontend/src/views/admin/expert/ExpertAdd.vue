@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="导入专家信息" @cancel="onClose" :width="500" :footer="null">
+  <a-modal v-model="show" title="导入求职者信息" @cancel="onClose" :width="500" :footer="null">
     <a-upload-dragger
       name="file"
       :multiple="true"

@@ -11,10 +11,10 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='所属专家' v-bind="formItemLayout">
+          <a-form-item label='所属求职者' v-bind="formItemLayout">
             <a-select v-decorator="[
             'expertCode',
-            { rules: [{ required: true, message: '请输入所属专家!' }] }
+            { rules: [{ required: true, message: '请输入所属求职者!' }] }
             ]">
               <a-select-option v-for="(item, index) in expertList" :key="index" :value="item.code">{{ item.name }}</a-select-option>
             </a-select>

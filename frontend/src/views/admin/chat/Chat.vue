@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="专家名称"
+                label="求职者名称"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
                 <a-input v-model="queryParams.expertName"/>
@@ -114,21 +114,21 @@ export default {
         title: '',
         dataIndex: 'content'
       }, {
-        title: '专家名称',
+        title: '求职者名称',
         dataIndex: 'expertName'
       }, {
         title: '企业名称',
         dataIndex: 'enterpriseName'
       }, {
-        title: '专家头像',
+        title: '求职者头像',
         dataIndex: 'expertImages',
         customRender: (text, record, index) => {
           if (!record.expertImages) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'static/avatar/' + record.expertImages } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'static/avatar/' + record.expertImages } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
           </a-popover>
         }
       }, {
@@ -138,9 +138,9 @@ export default {
           if (!record.enterpriseImages) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'static/avatar/' + record.enterpriseImages } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.enterpriseImages } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'static/avatar/' + record.enterpriseImages } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.enterpriseImages } />
           </a-popover>
         }
       }, {
@@ -149,7 +149,7 @@ export default {
         customRender: (text, row, index) => {
           switch (text) {
             case 1:
-              return <a-tag>专家</a-tag>
+              return <a-tag>求职者</a-tag>
             case 2:
               return <a-tag>企业</a-tag>
             default:

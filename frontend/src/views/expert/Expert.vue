@@ -1,6 +1,6 @@
 <template>
   <a-card style="width: 63%;margin: 0 auto;padding-top: 30px">
-    <i style="font-size: 23px;margin: 30px;">专家列表</i>
+    <i style="font-size: 23px;margin: 30px;">求职者列表</i>
     <div style="margin: 30px">
       <a-input-search placeholder="input search text" style="width: 300px;float: right" @search="onSearch"/>
       <a-list
@@ -101,7 +101,7 @@ export default {
         expertCode: item.code
       }).then((r) => {
         if (r.data.data === false) {
-          this.$message.warn('该专家已在收藏列表中')
+          this.$message.warn('该求职者已在收藏列表中')
         } else {
           this.$message.success('收藏成功')
         }

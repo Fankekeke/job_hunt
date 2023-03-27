@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="专家名称"
+                label="求职者名称"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
                 <a-input v-model="queryParams.name"/>
@@ -126,7 +126,7 @@ export default {
         title: '推荐人',
         dataIndex: 'recommendName'
       }, {
-        title: '专家名称',
+        title: '求职者名称',
         dataIndex: 'name'
       }, {
         title: '审核状态',

@@ -8,7 +8,7 @@
     <div style="font-size: 13px;font-family: SimHei" v-if="productData !== null">
       <a-row style="padding-left: 24px;padding-right: 24px;">
         <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">项目成果信息</span></a-col>
-        <a-col :span="8"><b>所属专家：</b>
+        <a-col :span="8"><b>所属求职者：</b>
           {{ productData.expertName }}
         </a-col>
         <a-col :span="16"><b>项目名称：</b>

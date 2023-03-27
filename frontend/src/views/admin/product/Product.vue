@@ -7,7 +7,7 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="专家名称"
+                label="求职者名称"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
                 <a-input v-model="queryParams.expertName"/>
@@ -158,10 +158,10 @@ export default {
     }),
     columns () {
       return [{
-        title: '专家编号',
+        title: '求职者编号',
         dataIndex: 'expertCode'
       }, {
-        title: '专家名称',
+        title: '求职者名称',
         dataIndex: 'expertName',
         customRender: (text, row, index) => {
           if (text !== null) {

@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="修改行业" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="修改行业" @cancel="onClose" :width="500">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -10,7 +10,7 @@
     </template>
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
-        <a-col :span="12">
+        <a-col :span="24">
           <a-form-item label='行业名称' v-bind="formItemLayout">
             <a-input v-decorator="[
             'name',
@@ -18,12 +18,9 @@
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :span="24">
           <a-form-item label='使用状态' v-bind="formItemLayout">
-            <a-switch v-decorator="[
-            'delFlag',
-            { rules: [{ required: true, message: '请选择使用状态!' }] }
-            ]"/>
+            <a-switch v-model="fixedCheck"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -72,7 +69,8 @@ export default {
       loading: false,
       fileList: [],
       previewVisible: false,
-      previewImage: ''
+      previewImage: '',
+      fixedCheck: false
     }
   },
   methods: {
@@ -103,9 +101,11 @@ export default {
       let fields = ['name', 'delFlag']
       let obj = {}
       Object.keys(industry).forEach((key) => {
-        if (key === 'images') {
-          this.fileList = []
-          this.imagesInit(industry['images'])
+        if (key === 'delFlag') {
+          console.log(industry[key])
+          obj[key] = industry[key] === 1
+          this.fixedCheck = industry[key] === 1
+          console.log(obj[key])
         }
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
@@ -127,6 +127,7 @@ export default {
         values.id = this.rowId
         if (!err) {
           this.loading = true
+          values.delFlag = this.fixedCheck ? 1 : 0
           this.$put('/cos/industry-info', {
             ...values
           }).then((r) => {

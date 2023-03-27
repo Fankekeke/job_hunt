@@ -2,39 +2,39 @@
   <a-row :gutter="20" style="width: 81%;margin: 0 auto;font-family: SimHei">
     <a-col :span="18">
       <a-row style="margin-top: 15px">
-        <a-col :span="24">
-          <a-col style="margin-bottom: 15px">
-            <i style="font-size: 23px;color: #000c17">专家</i>
-            <a style="font-size:13px;margin-left: 15px" @click="$router.push('/exview')">-> 更多</a>
-          </a-col>
-          <a-col>
-            <a-row :gutter="15">
-              <a-col span="8" v-for="(item, index) in expertList" :key="index" style="margin-bottom: 15px">
-                <a-card hoverable>
-                  <template slot="actions" class="ant-card-actions">
-                    <a-icon key="cloud" type="cloud" @click="handleExpertProductOpen(item)"/>
-                    <a-icon key="ellipsis" type="ellipsis" @click="handleExpertViewOpen(item)"/>
-                  </template>
-                  <a-card-meta>
-                    <span slot="title">
-                      {{ item.name }} <span style="font-size: 12px"> - {{ item.position }}</span>
-                    </span>
-                    <span slot="description">
-                      <span style="font-size: 12px">专业一级: {{ item.levelOne }} - 专业二级: {{ item.levelTwo }}</span>
-                      <div style="margin-top: 5px;font-size: 12px">
-                        {{ item.profile != null ? item.profile.slice(0, 30) + '...' : ' - - ' }}
-                      </div>
-                    </span>
-                    <a-avatar
-                      slot="avatar"
-                      :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"
-                    />
-                  </a-card-meta>
-                </a-card>
-              </a-col>
-            </a-row>
-          </a-col>
-        </a-col>
+<!--        <a-col :span="24">-->
+<!--          <a-col style="margin-bottom: 15px">-->
+<!--            <i style="font-size: 23px;color: #000c17">求职者</i>-->
+<!--            <a style="font-size:13px;margin-left: 15px" @click="$router.push('/exview')">-> 更多</a>-->
+<!--          </a-col>-->
+<!--          <a-col>-->
+<!--            <a-row :gutter="15">-->
+<!--              <a-col span="8" v-for="(item, index) in expertList" :key="index" style="margin-bottom: 15px">-->
+<!--                <a-card hoverable>-->
+<!--                  <template slot="actions" class="ant-card-actions">-->
+<!--                    <a-icon key="cloud" type="cloud" @click="handleExpertProductOpen(item)"/>-->
+<!--                    <a-icon key="ellipsis" type="ellipsis" @click="handleExpertViewOpen(item)"/>-->
+<!--                  </template>-->
+<!--                  <a-card-meta>-->
+<!--                    <span slot="title">-->
+<!--                      {{ item.name }} <span style="font-size: 12px"> - {{ item.position }}</span>-->
+<!--                    </span>-->
+<!--                    <span slot="description">-->
+<!--                      <span style="font-size: 12px">专业一级: {{ item.levelOne }} - 专业二级: {{ item.levelTwo }}</span>-->
+<!--                      <div style="margin-top: 5px;font-size: 12px">-->
+<!--                        {{ item.profile != null ? item.profile.slice(0, 30) + '...' : ' - - ' }}-->
+<!--                      </div>-->
+<!--                    </span>-->
+<!--                    <a-avatar-->
+<!--                      slot="avatar"-->
+<!--                      :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"-->
+<!--                    />-->
+<!--                  </a-card-meta>-->
+<!--                </a-card>-->
+<!--              </a-col>-->
+<!--            </a-row>-->
+<!--          </a-col>-->
+<!--        </a-col>-->
         <a-col :span="24" style="margin-top: 20px">
           <a-col style="margin-bottom: 15px">
             <i style="font-size: 23px;color: #000c17">企业</i>

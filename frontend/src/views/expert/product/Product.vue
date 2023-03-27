@@ -150,10 +150,10 @@ export default {
     }),
     columns () {
       return [{
-        title: '专家编号',
+        title: '求职者编号',
         dataIndex: 'expertCode'
       }, {
-        title: '专家名称',
+        title: '求职者名称',
         dataIndex: 'expertName',
         customRender: (text, row, index) => {
           if (text !== null) {

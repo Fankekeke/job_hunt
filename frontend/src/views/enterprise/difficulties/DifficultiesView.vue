@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="技术难点推荐专家" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="技术难点推荐求职者" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose" type="danger">
         关闭
@@ -76,7 +76,7 @@
         </a-collapse-panel>
       </a-collapse>
       <div v-else style="font-size: 25px;margin: 25px;text-align: center">
-        暂无推荐专家
+        暂无推荐求职者
       </div>
     </div>
   </a-modal>

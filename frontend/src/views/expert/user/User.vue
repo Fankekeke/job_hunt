@@ -5,10 +5,10 @@
         <a-form :form="form" layout="vertical">
           <a-row :gutter="20">
             <a-col :span="12">
-              <a-form-item label='专家姓名' v-bind="formItemLayout">
+              <a-form-item label='求职者姓名' v-bind="formItemLayout">
                 <a-input v-decorator="[
             'name',
-            { rules: [{ required: true, message: '请输入专家姓名!' }] }
+            { rules: [{ required: true, message: '请输入求职者姓名!' }] }
             ]"/>
               </a-form-item>
             </a-col>
@@ -126,7 +126,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item label='专家头像' v-bind="formItemLayout">
+              <a-form-item label='求职者头像' v-bind="formItemLayout">
                 <a-upload
                   name="avatar"
                   action="http://127.0.0.1:9527/file/fileUpload/"

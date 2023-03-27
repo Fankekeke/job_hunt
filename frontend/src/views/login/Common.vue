@@ -47,7 +47,8 @@ export default {
     flex-direction: column;
     height: 100vh;
     overflow: auto;
-    background: #f1f1f1 no-repeat center 110px;
+    background: #f0f2f5 url('../../../static/img/back.jpg') no-repeat center;
+    background-size: cover;
     .content {
       padding: 32px 0;
       flex: 1;
