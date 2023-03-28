@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,8 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
     private final PostInfoMapper postInfoMapper;
 
     private final InterviewInfoMapper interviewInfoMapper;
+
+    private final NotifyInfoMapper notifyInfoMapper;
 
     /**
      * 分页获取企业信息
@@ -88,6 +91,47 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
                 case 2:
                     List<Integer> interPostIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
                     result.put("post", interviewInfoMapper.selectInterViewPostByIds(interPostIds));
+                    break;
+                default:
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 获取企业主页信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selectHomeData(Integer userId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        // 获取企业信息
+        if (userId == null) {
+            return null;
+        }
+        EnterpriseInfo enterpriseInfo = this.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, userId));
+        if (enterpriseInfo == null) {
+            return null;
+        }
+        // 获取消息通知
+        List<NotifyInfo> notifyInfos = notifyInfoMapper.selectList(Wrappers.<NotifyInfo>lambdaQuery().eq(NotifyInfo::getUserCode, enterpriseInfo.getCode()));
+        result.put("notify", notifyInfos);
+        // 面试信息
+        List<InterviewInfo> interviewInfoList = interviewInfoMapper.selectList(Wrappers.<InterviewInfo>lambdaQuery().eq(InterviewInfo::getEnterpriseId, enterpriseInfo.getId()).eq(InterviewInfo::getStatus, 1));
+        Map<Integer, List<InterviewInfo>> integerMap = interviewInfoList.stream().collect(Collectors.groupingBy(InterviewInfo::getType));
+        // 数据统计
+        for (Integer type : integerMap.keySet()) {
+            switch (type) {
+                case 1:
+                    List<Integer> pluralismIds = integerMap.get(type).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.put("pluralism", interviewInfoMapper.selectInterViewPluralismByIds(pluralismIds));
+                    break;
+                case 2:
+                    List<Integer> postIds = integerMap.get(type).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.put("post", interviewInfoMapper.selectInterViewPostByIds(postIds));
                     break;
                 default:
             }
