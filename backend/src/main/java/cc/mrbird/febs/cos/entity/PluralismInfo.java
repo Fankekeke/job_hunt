@@ -46,7 +46,7 @@ public class PluralismInfo implements Serializable {
     /**
      * 岗位描述
      */
-    private String describe;
+    private String workDescribe;
 
     /**
      * 学历要求（1.小学 2.初中 3.高中 4.大专 5.本科 6.研究生）

@@ -76,6 +76,10 @@ public class PluralismInfoController {
      */
     @PostMapping
     public R save(PluralismInfo pluralismInfo) {
+        if (pluralismInfo.getEnterpriseId() != null) {
+            EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, pluralismInfo.getEnterpriseId()));
+            pluralismInfo.setEnterpriseId(enterpriseInfo.getId());
+        }
         pluralismInfo.setDelFlag(1);
         pluralismInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(pluralismInfoService.save(pluralismInfo));

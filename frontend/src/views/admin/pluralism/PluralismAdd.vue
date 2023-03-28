@@ -28,10 +28,15 @@
         </a-col>
         <a-col :span="8">
           <a-form-item label='结算方式' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'paymentMethod',
-            { rules: [{ required: true, message: '请输入结算方式!' }] }
-            ]"/>
+            <a-select v-decorator="[
+              'paymentMethod',
+              { rules: [{ required: true, message: '请输入结算方式!' }] }
+            ]">
+              <a-select-option value="1">日结</a-select-option>
+              <a-select-option value="2">周结</a-select-option>
+              <a-select-option value="3">月结</a-select-option>
+              <a-select-option value="4">季结</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -44,10 +49,17 @@
         </a-col>
         <a-col :span="8">
           <a-form-item label='学历要求' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'academic',
-            { rules: [{ required: true, message: '请输入学历要求!' }] }
-            ]"/>
+            <a-select v-decorator="[
+              'academic',
+              { rules: [{ required: true, message: '请输入学历要求!' }] }
+            ]">
+              <a-select-option value="1">小学</a-select-option>
+              <a-select-option value="2">初中</a-select-option>
+              <a-select-option value="3">高中</a-select-option>
+              <a-select-option value="4">大专</a-select-option>
+              <a-select-option value="5">本科</a-select-option>
+              <a-select-option value="6">研究生</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="8">

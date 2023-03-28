@@ -9,7 +9,7 @@
         pi.title,
         pi.post_name,
         pi.payment_method,
-        pi.`describe`,
+        pi.`work_describe`,
         pi.academic,
         pi.work_time,
         pi.work_hour,
