@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.IndustryInfo;
 import cc.mrbird.febs.cos.service.IIndustryInfoService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class IndustryInfoController {
 
     @GetMapping("/list")
     public R list() {
-        return R.ok(industryInfoService.list());
+        return R.ok(industryInfoService.list(Wrappers.<IndustryInfo>lambdaQuery().eq(IndustryInfo::getDelFlag, 0)));
     }
 
     /**

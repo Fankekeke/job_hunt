@@ -136,6 +136,22 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
                 default:
             }
         }
+//        // 岗位投递统计
+//        List<PluralismInfo> pluralismInfoList = pluralismInfoMapper.selectList(Wrappers.<PluralismInfo>lambdaQuery().eq(PluralismInfo::getEnterpriseId, enterpriseInfo.getId()));
+//        List<PostInfo> postInfoList = postInfoMapper.selectList(Wrappers.<PostInfo>lambdaQuery().eq(PostInfo::getEnterpriseId, enterpriseInfo.getId()));
+//
+//        LinkedHashMap<String, List<Map<String, Object>>> deliveryStatistics = new LinkedHashMap();
+//        // 兼职统计
+//        List<Map<String, Object>> pluralismList = new ArrayList<>();
+//        pluralismInfoList.forEach(pluralism -> {
+//            Map<String, Object> pluralismMapItem = new HashMap<String, Object>() {
+//                {
+//                    put("name", pluralism.getPostName());
+//                    put("count", );
+//                }
+//            };
+//        });
+
         return result;
     }
 

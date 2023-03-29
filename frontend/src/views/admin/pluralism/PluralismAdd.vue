@@ -87,26 +87,28 @@
           </a-form-item>
         </a-col>
         <a-col :span="8">
-          <a-form-item label='工作要求' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
-            'workRequire',
-             { rules: [{ required: true, message: '请输入工作要求!' }] }
-            ]"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="8">
           <a-form-item label='所属行业' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
-            'industryId',
-             { rules: [{ required: true, message: '请输入所属行业!' }] }
-            ]"/>
+            <a-select v-decorator="[
+              'industryId',
+              { rules: [{ required: true, message: '请输入所属行业!' }] }
+            ]">
+              <a-select-option v-for="(item, index) in industryList" :key="index" :value="item.id">{{ item.name }}</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="8">
           <a-form-item label='薪资范围' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
+            <a-input v-decorator="[
             'salary',
              { rules: [{ required: true, message: '请输入薪资范围!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作要求' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'workRequire',
+             { rules: [{ required: true, message: '请输入工作要求!' }] }
             ]"/>
           </a-form-item>
         </a-col>
@@ -155,10 +157,19 @@ export default {
       loading: false,
       fileList: [],
       previewVisible: false,
-      previewImage: ''
+      previewImage: '',
+      industryList: []
     }
   },
+  mounted () {
+    this.selectIndustry()
+  },
   methods: {
+    selectIndustry () {
+      this.$post('/cos/industry-info/list').then((r) => {
+        this.industryList = r.data.data
+      })
+    },
     handleCancel () {
       this.previewVisible = false
     },
@@ -181,13 +192,8 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
-      // 获取图片List
-      let images = []
-      this.fileList.forEach(image => {
-        images.push(image.response)
-      })
       this.form.validateFields((err, values) => {
-        values.images = images.length > 0 ? images.join(',') : null
+        values.enterpriseId = this.currentUser.userId
         if (!err) {
           this.loading = true
           this.$post('/cos/pluralism-info', {

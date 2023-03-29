@@ -44,10 +44,17 @@
         </a-col>
         <a-col :span="8">
           <a-form-item label='学历要求' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'academic',
-            { rules: [{ required: true, message: '请输入学历要求!' }] }
-            ]"/>
+            <a-select v-decorator="[
+              'academic',
+              { rules: [{ required: true, message: '请输入学历要求!' }] }
+            ]">
+              <a-select-option value="1">小学</a-select-option>
+              <a-select-option value="2">初中</a-select-option>
+              <a-select-option value="3">高中</a-select-option>
+              <a-select-option value="4">大专</a-select-option>
+              <a-select-option value="5">本科</a-select-option>
+              <a-select-option value="6">研究生</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="8">
@@ -75,34 +82,36 @@
           </a-form-item>
         </a-col>
         <a-col :span="8">
-          <a-form-item label='工作要求' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
-            'workRequire',
-             { rules: [{ required: true, message: '请输入工作要求!' }] }
-            ]"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="8">
           <a-form-item label='所属行业' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
-            'industryId',
-             { rules: [{ required: true, message: '请输入所属行业!' }] }
-            ]"/>
+            <a-select v-decorator="[
+              'industryId',
+              { rules: [{ required: true, message: '请输入所属行业!' }] }
+            ]">
+              <a-select-option v-for="(item, index) in industryList" :key="index" :value="item.id">{{ item.name }}</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="8">
           <a-form-item label='薪资范围' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
+            <a-input v-decorator="[
             'salary',
              { rules: [{ required: true, message: '请输入薪资范围!' }] }
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="16">
+        <a-col :span="8">
           <a-form-item label='福利信息' v-bind="formItemLayout">
-            <a-textarea :rows="6" v-decorator="[
+            <a-input v-decorator="[
             'welfare',
              { rules: [{ required: true, message: '请输入福利信息!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label='工作要求' v-bind="formItemLayout">
+            <a-textarea :rows="6" v-decorator="[
+            'workRequire',
+             { rules: [{ required: true, message: '请输入工作要求!' }] }
             ]"/>
           </a-form-item>
         </a-col>
@@ -155,7 +164,15 @@ export default {
       previewImage: ''
     }
   },
+  mounted () {
+    this.selectIndustry()
+  },
   methods: {
+    selectIndustry () {
+      this.$post('/cos/industry-info/list').then((r) => {
+        this.industryList = r.data.data
+      })
+    },
     handleCancel () {
       this.previewVisible = false
     },
@@ -203,18 +220,8 @@ export default {
       this.$emit('close')
     },
     handleSubmit () {
-      // 获取图片List
-      let images = []
-      this.fileList.forEach(image => {
-        if (image.response !== undefined) {
-          images.push(image.response)
-        } else {
-          images.push(image.name)
-        }
-      })
       this.form.validateFields((err, values) => {
         values.id = this.rowId
-        values.images = images.length > 0 ? images.join(',') : null
         if (!err) {
           this.loading = true
           this.$put('/cos/post-info', {
