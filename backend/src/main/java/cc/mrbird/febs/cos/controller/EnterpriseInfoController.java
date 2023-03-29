@@ -53,6 +53,17 @@ public class EnterpriseInfoController {
     }
 
     /**
+     * 根据企业ID获取面试信息
+     *
+     * @param userId 企业ID
+     * @return 结果
+     */
+    @GetMapping("/inter/view/{userId}")
+    public R selectInterViewByEnterPrise(@PathVariable("userId") Integer userId) {
+        return R.ok(enterpriseInfoService.selectInterViewByEnterPrise(userId));
+    }
+
+    /**
      * 根据兼职ID获取详情
      *
      * @param pluralismId 兼职ID

@@ -42,6 +42,14 @@ public interface IExpertInfoService extends IService<ExpertInfo> {
     LinkedHashMap<String, Object> selectInterByExpert(Integer userId);
 
     /**
+     * 根据求职者获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectInterViewByExpert(Integer userId);
+
+    /**
      * 根据企业编号获取推荐专家
      *
      * @param enterpriseCode 企业编号

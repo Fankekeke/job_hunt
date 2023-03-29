@@ -50,6 +50,14 @@ public interface IEnterpriseInfoService extends IService<EnterpriseInfo> {
     LinkedHashMap<String, Object> selectPostDetail(Integer postId);
 
     /**
+     * 根据企业ID获取面试信息
+     *
+     * @param userId 企业ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectInterViewByEnterPrise(Integer userId);
+
+    /**
      * 根据兼职ID获取详情
      *
      * @param pluralismId 兼职ID

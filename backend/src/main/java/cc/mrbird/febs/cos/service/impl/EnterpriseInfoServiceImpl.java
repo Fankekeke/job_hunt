@@ -165,6 +165,44 @@ public class EnterpriseInfoServiceImpl extends ServiceImpl<EnterpriseInfoMapper,
     }
 
     /**
+     * 根据企业ID获取面试信息
+     *
+     * @param userId 企业ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> selectInterViewByEnterPrise(Integer userId) {
+        // 返回数据
+        List<LinkedHashMap<String, Object>> result = new ArrayList<>();
+        if (userId == null) {
+            return result;
+        }
+        // 获取企业信息
+        EnterpriseInfo enterpriseInfo = this.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, userId));
+        if (enterpriseInfo == null) {
+            return result;
+        }
+        // 面试信息
+        List<InterviewInfo> interviewInfoList = interviewInfoMapper.selectList(Wrappers.<InterviewInfo>lambdaQuery().eq(InterviewInfo::getEnterpriseId, enterpriseInfo.getId()).eq(InterviewInfo::getStatus, 1));
+        Map<Integer, List<InterviewInfo>> integerMap = interviewInfoList.stream().collect(Collectors.groupingBy(InterviewInfo::getType));
+        // 数据统计
+        for (Integer type : integerMap.keySet()) {
+            switch (type) {
+                case 1:
+                    List<Integer> pluralismIds = integerMap.get(type).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.addAll(interviewInfoMapper.selectInterViewPluralismByIds(pluralismIds));
+                    break;
+                case 2:
+                    List<Integer> postIds = integerMap.get(type).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.addAll(interviewInfoMapper.selectInterViewPostByIds(postIds));
+                    break;
+                default:
+            }
+        }
+        return result;
+    }
+
+    /**
      * 根据兼职ID获取详情
      *
      * @param pluralismId 兼职ID

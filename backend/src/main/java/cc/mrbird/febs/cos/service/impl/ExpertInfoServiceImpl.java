@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,47 @@ public class ExpertInfoServiceImpl extends ServiceImpl<ExpertInfoMapper, ExpertI
             }
         }
 
+        return result;
+    }
+
+    /**
+     * 根据求职者获取面试信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> selectInterViewByExpert(Integer userId) {
+        // 返回数据
+        List<LinkedHashMap<String, Object>> result = new ArrayList<>();
+        if (userId == null) {
+            return result;
+        }
+        // 获取用户信息
+        ExpertInfo expertInfo = this.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getUserId, userId));
+        if (expertInfo == null) {
+            return result;
+        }
+        // 获取面试信息
+        List<InterviewInfo> interviewList = interviewInfoMapper.selectList(Wrappers.<InterviewInfo>lambdaQuery().eq(InterviewInfo::getExpertId, expertInfo.getId()));
+        if (CollectionUtil.isEmpty(interviewList)) {
+            return result;
+        }
+        // 根据类型转MAP
+        Map<Integer, List<InterviewInfo>> integerMap = interviewList.stream().collect(Collectors.groupingBy(InterviewInfo::getType));
+        for (Integer interType : integerMap.keySet()) {
+            switch (interType) {
+                case 1:
+                    List<Integer> interPluralismIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.addAll(interviewInfoMapper.selectInterViewPluralismByIds(interPluralismIds));
+                    break;
+                case 2:
+                    List<Integer> interPostIds = integerMap.get(interType).stream().map(InterviewInfo::getId).collect(Collectors.toList());
+                    result.addAll(interviewInfoMapper.selectInterViewPostByIds(interPostIds));
+                    break;
+                default:
+            }
+        }
         return result;
     }
 
