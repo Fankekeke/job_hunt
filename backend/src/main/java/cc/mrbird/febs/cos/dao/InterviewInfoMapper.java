@@ -21,8 +21,16 @@ public interface InterviewInfoMapper extends BaseMapper<InterviewInfo> {
      * @param interviewInfo 面试信息
      * @return 结果
      */
-    IPage<LinkedHashMap<String, Object>> selectInterViewPage(Page<InterviewInfo> page, @Param("interviewInfo") InterviewInfo interviewInfo);
+    IPage<LinkedHashMap<String, Object>> selectInterViewPagePluralism(Page<InterviewInfo> page, @Param("interviewInfo") InterviewInfo interviewInfo);
 
+    /**
+     * 分页获取面试信息
+     *
+     * @param page          分页对象
+     * @param interviewInfo 面试信息
+     * @return 结果
+     */
+    IPage<LinkedHashMap<String, Object>> selectInterViewPagePost(Page<InterviewInfo> page, @Param("interviewInfo") InterviewInfo interviewInfo);
     /**
      * 根据面试ID获取岗位面试信息
      *

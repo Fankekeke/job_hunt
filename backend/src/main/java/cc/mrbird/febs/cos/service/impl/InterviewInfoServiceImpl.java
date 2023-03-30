@@ -25,6 +25,10 @@ public class InterviewInfoServiceImpl extends ServiceImpl<InterviewInfoMapper, I
      */
     @Override
     public IPage<LinkedHashMap<String, Object>> selectInterViewPage(Page<InterviewInfo> page, InterviewInfo interviewInfo) {
-        return baseMapper.selectInterViewPage(page, interviewInfo);
+        if (interviewInfo.getType() == 1) {
+            return baseMapper.selectInterViewPagePluralism(page, interviewInfo);
+        } else {
+            return baseMapper.selectInterViewPagePost(page, interviewInfo);
+        }
     }
 }
