@@ -167,7 +167,7 @@ export default {
   },
   methods: {
     selectIndustry () {
-      this.$post('/cos/industry-info/list').then((r) => {
+      this.$$get('/cos/industry-info/list').then((r) => {
         this.industryList = r.data.data
       })
     },

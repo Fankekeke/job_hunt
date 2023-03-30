@@ -43,7 +43,7 @@ public class IndustryInfoController {
 
     @GetMapping("/list")
     public R list() {
-        return R.ok(industryInfoService.list(Wrappers.<IndustryInfo>lambdaQuery().eq(IndustryInfo::getDelFlag, 0)));
+        return R.ok(industryInfoService.list(Wrappers.<IndustryInfo>lambdaQuery().eq(IndustryInfo::getDelFlag, 1)));
     }
 
     /**
