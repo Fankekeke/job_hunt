@@ -34,6 +34,7 @@
         left join enterprise_info eni on
         (eni.id = ini.enterprise_id)
         where 1 = 1
+        AND ini.`type` = 1
         <if test="interviewInfo.title != null and interviewInfo.title != ''">
             AND pli.title LIKE CONCAT('%',#{interviewInfo.title},'%')
         </if>
@@ -80,6 +81,7 @@
         left join enterprise_info eni on
         (eni.id = ini.enterprise_id)
         where 1 = 1
+        AND ini.`type` = 2
         <if test="interviewInfo.postName != null and interviewInfo.postName != ''">
             AND pli.post_name LIKE CONCAT('%',#{interviewInfo.postName},'%')
         </if>

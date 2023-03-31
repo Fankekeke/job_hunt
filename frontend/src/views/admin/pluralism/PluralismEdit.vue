@@ -42,7 +42,7 @@
         <a-col :span="24">
           <a-form-item label='岗位描述' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'describe',
+            'workDescribe',
              { rules: [{ required: true, message: '请输入岗位描述!' }] }
             ]"/>
           </a-form-item>
@@ -104,7 +104,7 @@
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="24">
           <a-form-item label='工作要求' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'workRequire',
@@ -167,7 +167,7 @@ export default {
   },
   methods: {
     selectIndustry () {
-      this.$$get('/cos/industry-info/list').then((r) => {
+      this.$get('/cos/industry-info/list').then((r) => {
         this.industryList = r.data.data
       })
     },
@@ -195,12 +195,17 @@ export default {
     },
     setFormValues ({...pluralism}) {
       this.rowId = pluralism.id
-      let fields = ['title', 'postName', 'paymentMethod', 'describe', 'academic', 'workTime', 'workHour', 'workAddress', 'workRequire', 'industryId', 'createDate', 'delFlag', 'enterpriseId', 'salary']
+      let fields = ['title', 'postName', 'paymentMethod', 'workDescribe', 'academic', 'workTime', 'workHour', 'workAddress', 'workRequire', 'industryId', 'createDate', 'delFlag', 'enterpriseId', 'salary']
       let obj = {}
       Object.keys(pluralism).forEach((key) => {
         if (key === 'images') {
           this.fileList = []
           this.imagesInit(pluralism['images'])
+        }
+        if (key === 'paymentMethod' || key === 'academic') {
+          if (pluralism[key]) {
+            pluralism[key] = pluralism[key].toString()
+          }
         }
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)

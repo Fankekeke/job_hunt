@@ -65,7 +65,8 @@
           </template>
         </template>
         <template slot="operation" slot-scope="text, record">
-          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改"></a-icon>
+          <a-icon type="cloud" @click="handlePluralismViewOpen(record)" title="详 情"></a-icon>
+          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改" style="margin-left: 15px"></a-icon>
         </template>
       </a-table>
     </div>
@@ -81,6 +82,11 @@
       @success="handlepluralismEditSuccess"
       :pluralismEditVisiable="pluralismEdit.visiable">
     </pluralism-edit>
+    <pluralism-view
+      @close="handlePluralismViewClose"
+      :pluralismShow="pluralismView.visiable"
+      :pluralismData="pluralismView.data">
+    </pluralism-view>
   </a-card>
 </template>
 
@@ -90,13 +96,18 @@ import pluralismAdd from './PluralismAdd'
 import pluralismEdit from './PluralismEdit'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import PluralismView from './PluralismView.vue'
 moment.locale('zh-cn')
 
 export default {
   name: 'pluralism',
-  components: {pluralismAdd, pluralismEdit, RangeDate},
+  components: {PluralismView, pluralismAdd, pluralismEdit, RangeDate},
   data () {
     return {
+      pluralismView: {
+        visiable: false,
+        data: null
+      },
       advanced: false,
       pluralismAdd: {
         visiable: false
@@ -233,6 +244,13 @@ export default {
     this.fetch()
   },
   methods: {
+    handlePluralismViewClose () {
+      this.pluralismView.visiable = false
+    },
+    handlePluralismViewOpen (row) {
+      this.pluralismView.data = row
+      this.pluralismView.visiable = true
+    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },

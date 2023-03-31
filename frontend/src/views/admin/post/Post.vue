@@ -73,7 +73,8 @@
           </template>
         </template>
         <template slot="operation" slot-scope="text, record">
-          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改"></a-icon>
+          <a-icon type="cloud" @click="handlePostViewOpen(record)" title="详 情"></a-icon>
+          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改" style="margin-left: 15px"></a-icon>
         </template>
       </a-table>
     </div>
@@ -89,6 +90,11 @@
       @success="handlepluralismEditSuccess"
       :pluralismEditVisiable="pluralismEdit.visiable">
     </post-edit>
+    <post-view
+      @close="handlePostViewClose"
+      :pluralismShow="postView.visiable"
+      :pluralismData="postView.data">
+    </post-view>
   </a-card>
 </template>
 
@@ -98,13 +104,18 @@ import postAdd from './PostAdd'
 import postEdit from './PostEdit'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import PostView from './PostView.vue'
 moment.locale('zh-cn')
 
 export default {
   name: 'pluralism',
-  components: {postAdd, postEdit, RangeDate},
+  components: {PostView, postAdd, postEdit, RangeDate},
   data () {
     return {
+      postView: {
+        visiable: false,
+        data: null
+      },
       advanced: false,
       pluralismAdd: {
         visiable: false
@@ -141,9 +152,6 @@ export default {
       }, {
         title: '岗位名称',
         dataIndex: 'postName'
-      }, {
-        title: '工作地点',
-        dataIndex: 'address'
       }, {
         title: '工作时间',
         dataIndex: 'workTime',
@@ -237,6 +245,13 @@ export default {
     this.fetch()
   },
   methods: {
+    handlePostViewClose () {
+      this.postView.visiable = false
+    },
+    handlePostViewOpen (row) {
+      this.postView.data = row
+      this.postView.visiable = true
+    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
@@ -351,7 +366,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      this.$get('/cos/pluralism-info/page', {
+      this.$get('/cos/post-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

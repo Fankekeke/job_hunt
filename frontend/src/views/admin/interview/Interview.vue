@@ -24,7 +24,6 @@
           </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
-            <a-button style="margin-left: 8px" @click="reset">重置</a-button>
           </span>
         </a-row>
       </a-form>
@@ -111,7 +110,8 @@ export default {
         showSizeChanger: true,
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
-      userList: []
+      userList: [],
+      currentKey: 1
     }
   },
   computed: {
@@ -173,7 +173,7 @@ export default {
     }
   },
   mounted () {
-    this.fetch()
+    this.fetch({type: 1})
   },
   methods: {
     view (row) {
@@ -224,6 +224,7 @@ export default {
         sortOrder = sortedInfo.order
       }
       this.fetch({
+        type: this.currentKey,
         sortField: sortField,
         sortOrder: sortOrder,
         ...this.queryParams,
@@ -261,6 +262,7 @@ export default {
       })
     },
     callback (key) {
+      this.currentKey = key
       this.fetch({type: key})
     },
     fetch (params = {}) {

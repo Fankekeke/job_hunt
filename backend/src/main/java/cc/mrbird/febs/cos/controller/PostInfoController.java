@@ -77,7 +77,9 @@ public class PostInfoController {
     public R save(PostInfo postInfo) {
         if (postInfo.getEnterpriseId() != null) {
             EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, postInfo.getEnterpriseId()));
-            postInfo.setEnterpriseId(enterpriseInfo.getId());
+            if (enterpriseInfo != null) {
+                postInfo.setEnterpriseId(enterpriseInfo.getId());
+            }
         }
         postInfo.setDelFlag(1);
         postInfo.setCode("PT-" + System.currentTimeMillis());

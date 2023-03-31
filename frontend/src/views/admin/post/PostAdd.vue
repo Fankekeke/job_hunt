@@ -74,14 +74,6 @@
           </a-form-item>
         </a-col>
         <a-col :span="8">
-          <a-form-item label='工作地点' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'workAddress',
-            { rules: [{ required: true, message: '请输入工作地点!' }] }
-            ]"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="8">
           <a-form-item label='所属行业' v-bind="formItemLayout">
             <a-select v-decorator="[
               'industryId',
@@ -107,7 +99,7 @@
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="16">
           <a-form-item label='工作要求' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'workRequire',
@@ -169,7 +161,7 @@ export default {
   },
   methods: {
     selectIndustry () {
-      this.$$get('/cos/industry-info/list').then((r) => {
+      this.$get('/cos/industry-info/list').then((r) => {
         this.industryList = r.data.data
       })
     },

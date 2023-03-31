@@ -58,9 +58,9 @@
       </a-row>
       <br/>
       <a-row style="padding-left: 24px;padding-right: 24px;">
-        <a-col :span="24"><b>工作要求：</b>
-          {{ pluralismData.workRequire }}
-        </a-col>
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">工作要求</span></a-col>
+        <a-col :span="24">{{ pluralismData.workRequire }}</a-col>
+        <br/>
         <br/>
         <br/>
         <a-col :span="8"><b>创建时间：</b>
@@ -97,7 +97,7 @@ function getBase64 (file) {
   })
 }
 export default {
-  name: 'pluralismView',
+  name: 'postView',
   props: {
     pluralismShow: {
       type: Boolean,

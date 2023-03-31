@@ -42,7 +42,7 @@
         <a-col :span="24">
           <a-form-item label='岗位描述' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'describe',
+            'workDescribe',
              { rules: [{ required: true, message: '请输入岗位描述!' }] }
             ]"/>
           </a-form-item>
@@ -104,7 +104,7 @@
             ]"/>
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="24">
           <a-form-item label='工作要求' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'workRequire',

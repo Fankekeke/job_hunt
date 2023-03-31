@@ -8,7 +8,6 @@
         pi.id,
         pi.code,
         pi.address,
-        pi.title,
         pi.post_name,
         pi.experience,
         pi.responsibility,
@@ -35,14 +34,14 @@
         left join industry_info ini on (ini.id = pi.industry_id)
         where
         1 = 1
-        <if test="pluralismInfo.address != null and pluralismInfo.address != ''">
-            AND pi.address LIKE CONCAT('%',#{pluralismInfo.address},'%')
+        <if test="postInfo.address != null and postInfo.address != ''">
+            AND pi.address LIKE CONCAT('%',#{postInfo.address},'%')
         </if>
-        <if test="pluralismInfo.postName != null and pluralismInfo.postName != ''">
-            AND pi.post_name LIKE CONCAT('%',#{pluralismInfo.postName},'%')
+        <if test="postInfo.postName != null and postInfo.postName != ''">
+            AND pi.post_name LIKE CONCAT('%',#{postInfo.postName},'%')
         </if>
-        <if test="pluralismInfo.enterpriseId != null">
-            AND pi.enterprise_id = #{pluralismInfo.enterpriseId}
+        <if test="postInfo.enterpriseId != null">
+            AND pi.enterprise_id = #{postInfo.enterpriseId}
         </if>
         order by
         pi.create_date desc
