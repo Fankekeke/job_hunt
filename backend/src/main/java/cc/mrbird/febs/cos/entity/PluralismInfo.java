@@ -98,4 +98,7 @@ public class PluralismInfo implements Serializable {
      */
     private String salary;
 
+    @TableField(exist = false)
+    private String enterpriseName;
+
 }

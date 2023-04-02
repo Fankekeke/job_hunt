@@ -43,6 +43,12 @@
         <if test="postInfo.enterpriseId != null">
             AND pi.enterprise_id = #{postInfo.enterpriseId}
         </if>
+        <if test="postInfo.enterpriseName != null and postInfo.enterpriseName != ''">
+            AND ei.name LIKE CONCAT('%',#{postInfo.enterpriseName},'%')
+        </if>
+        <if test="postInfo.delFlag != null">
+            AND pi.del_flag = #{postInfo.delFlag}
+        </if>
         order by
         pi.create_date desc
     </select>

@@ -14,7 +14,7 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item>
-          <a-input type="text" v-model="userCode" placeholder="验证编号" v-if="registType !== 'c'"></a-input>
+          <a-input type="text" v-model="userCode" placeholder="验证编号"></a-input>
         </a-form-item>
         <a-divider orientation="left"><span style="font-size: 12px">账户注册</span></a-divider>
         <a-form-item

@@ -7,18 +7,18 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="求职者名称"
+                label="兼职标题"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.expertName"/>
+                <a-input v-model="queryParams.title"/>
               </a-form-item>
             </a-col>
-             <a-col :md="6" :sm="24">
+            <a-col :md="6" :sm="24">
               <a-form-item
-                label="企业名称"
+                label="岗位名称"
                 :labelCol="{span: 4}"
                 :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.enterpriseName"/>
+                <a-input v-model="queryParams.postName"/>
               </a-form-item>
             </a-col>
           </div>
@@ -31,70 +31,90 @@
     </div>
     <div>
       <div class="operator">
-        <!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
+        <a-button type="primary" ghost @click="add">新增</a-button>
         <a-button @click="batchDelete">删除</a-button>
       </div>
-      <a-tabs default-active-key="1" @change="callback">
-        <a-tab-pane key="1" tab="收藏企业">
-          <!-- 表格区域 -->
-          <a-table ref="TableInfo"
-                   :columns="columns"
-                   :rowKey="record => record.id"
-                   :dataSource="dataSource"
-                   :pagination="pagination"
-                   :loading="loading"
-                   :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-                   :scroll="{ x: 900 }"
-                   @change="handleTableChange">
-          </a-table>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="收藏兼职">
-          <!-- 表格区域 -->
-          <a-table ref="TableInfo"
-                   :columns="pluralismColumns"
-                   :rowKey="record => record.id"
-                   :dataSource="dataSource"
-                   :pagination="pagination"
-                   :loading="loading"
-                   :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-                   :scroll="{ x: 900 }"
-                   @change="handleTableChange">
-          </a-table>
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="收藏岗位">
-          <!-- 表格区域 -->
-          <a-table ref="TableInfo"
-                   :columns="postColumns"
-                   :rowKey="record => record.id"
-                   :dataSource="dataSource"
-                   :pagination="pagination"
-                   :loading="loading"
-                   :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-                   :scroll="{ x: 900 }"
-                   @change="handleTableChange">
-          </a-table>
-        </a-tab-pane>
-      </a-tabs>
+      <!-- 表格区域 -->
+      <a-table ref="TableInfo"
+               :columns="columns"
+               :rowKey="record => record.id"
+               :dataSource="dataSource"
+               :pagination="pagination"
+               :loading="loading"
+               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+               :scroll="{ x: 900 }"
+               @change="handleTableChange">
+        <template slot="titleShow" slot-scope="text, record">
+          <template>
+            <a-tooltip>
+              <template slot="title">
+                {{ record.title }}
+              </template>
+              {{ record.title.slice(0, 8) }} ...
+            </a-tooltip>
+          </template>
+        </template>
+        <template slot="contentShow" slot-scope="text, record">
+          <template>
+            <a-tooltip>
+              <template slot="title">
+                {{ record.content }}
+              </template>
+              {{ record.content.slice(0, 30) }} ...
+            </a-tooltip>
+          </template>
+        </template>
+        <template slot="operation" slot-scope="text, record">
+          <a-icon type="cloud" @click="handlePluralismViewOpen(record)" title="详 情"></a-icon>
+          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改" style="margin-left: 15px"></a-icon>
+        </template>
+      </a-table>
     </div>
+    <pluralism-add
+      v-if="pluralismAdd.visiable"
+      @close="handlepluralismAddClose"
+      @success="handlepluralismAddSuccess"
+      :pluralismAddVisiable="pluralismAdd.visiable">
+    </pluralism-add>
+    <pluralism-edit
+      ref="pluralismEdit"
+      @close="handlepluralismEditClose"
+      @success="handlepluralismEditSuccess"
+      :pluralismEditVisiable="pluralismEdit.visiable">
+    </pluralism-edit>
+    <pluralism-view
+      @close="handlePluralismViewClose"
+      :pluralismShow="pluralismView.visiable"
+      :pluralismData="pluralismView.data">
+    </pluralism-view>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
+import pluralismAdd from './PluralismAdd'
+import pluralismEdit from './PluralismEdit'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import PluralismView from './PluralismView.vue'
 moment.locale('zh-cn')
 
 export default {
-  name: 'User',
-  components: {RangeDate},
+  name: 'pluralism',
+  components: {PluralismView, pluralismAdd, pluralismEdit, RangeDate},
   data () {
     return {
-      userView: {
+      pluralismView: {
         visiable: false,
         data: null
       },
       advanced: false,
+      pluralismAdd: {
+        visiable: false
+      },
+      pluralismEdit: {
+        visiable: false
+      },
       queryParams: {},
       filteredInfo: null,
       sortedInfo: null,
@@ -110,8 +130,7 @@ export default {
         showSizeChanger: true,
         showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
       },
-      userList: [],
-      currentKey: 1
+      userList: []
     }
   },
   computed: {
@@ -120,163 +139,11 @@ export default {
     }),
     columns () {
       return [{
-        title: '求职者编号',
-        dataIndex: 'expertCode'
-      }, {
-        title: '企业编号',
-        dataIndex: 'enterCode'
-      }, {
-        title: '求职者名称',
-        dataIndex: 'expertName'
-      }, {
-        title: '企业名称',
-        dataIndex: 'expertName'
-      }, {
-        title: '求职者头像',
-        dataIndex: 'expertImages',
-        customRender: (text, record, index) => {
-          if (!record.expertImages) return <a-avatar shape="square" icon="user" />
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
-            </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
-          </a-popover>
-        }
-      }, {
-        title: '收藏时间',
-        dataIndex: 'createDate'
-      }]
-    },
-    postColumns () {
-      return [{
-        title: '求职者名称',
-        dataIndex: 'expertName'
-      }, {
-        title: '企业名称',
-        dataIndex: 'expertName'
-      }, {
-        title: '求职者头像',
-        dataIndex: 'expertImages',
-        customRender: (text, record, index) => {
-          if (!record.expertImages) return <a-avatar shape="square" icon="user" />
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
-            </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
-          </a-popover>
-        }
+        title: '兼职标题',
+        dataIndex: 'title'
       }, {
         title: '岗位名称',
         dataIndex: 'postName'
-      }, {
-        title: '工作时间',
-        dataIndex: 'workTime',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '工作时段',
-        dataIndex: 'workHour',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '薪资',
-        dataIndex: 'salary',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '工作地点',
-        dataIndex: 'address',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '收藏时间',
-        dataIndex: 'createDate'
-      }]
-    },
-    pluralismColumns () {
-      return [{
-        title: '求职者名称',
-        dataIndex: 'expertName'
-      }, {
-        title: '企业名称',
-        dataIndex: 'expertName'
-      }, {
-        title: '求职者头像',
-        dataIndex: 'expertImages',
-        customRender: (text, record, index) => {
-          if (!record.expertImages) return <a-avatar shape="square" icon="user" />
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
-            </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.expertImages } />
-          </a-popover>
-        }
-      }, {
-        title: '岗位名称',
-        dataIndex: 'postName'
-      }, {
-        title: '工作时间',
-        dataIndex: 'workTime',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '工作时段',
-        dataIndex: 'workHour',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '薪资',
-        dataIndex: 'salary',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
-        title: '工作地点',
-        dataIndex: 'workAddress',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
       }, {
         title: '结算方式',
         dataIndex: 'paymentMethod',
@@ -295,27 +162,123 @@ export default {
           }
         }
       }, {
-        title: '收藏时间',
-        dataIndex: 'createDate'
+        title: '工作时间',
+        dataIndex: 'workTime',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '工作时段',
+        dataIndex: 'workHour',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '工作地点',
+        dataIndex: 'workAddress',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '所属行业',
+        dataIndex: 'industryName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '企业名称',
+        dataIndex: 'enterpriseName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '企业照片',
+        dataIndex: 'images',
+        customRender: (text, record, index) => {
+          if (!record.images) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+          </a-popover>
+        }
+      }, {
+        title: '发布时间',
+        dataIndex: 'createDate',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: {customRender: 'operation'}
       }]
     }
   },
   mounted () {
-    this.fetch({type: 1})
+    this.fetch()
   },
   methods: {
-    view (row) {
-      this.userView.data = row
-      this.userView.visiable = true
+    handlePluralismViewClose () {
+      this.pluralismView.visiable = false
     },
-    handleUserViewClose () {
-      this.userView.visiable = false
+    handlePluralismViewOpen (row) {
+      this.pluralismView.data = row
+      this.pluralismView.visiable = true
     },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
     toggleAdvanced () {
       this.advanced = !this.advanced
+    },
+    add () {
+      this.pluralismAdd.visiable = true
+    },
+    handlepluralismAddClose () {
+      this.pluralismAdd.visiable = false
+    },
+    handlepluralismAddSuccess () {
+      this.pluralismAdd.visiable = false
+      this.$message.success('新增兼职成功')
+      this.search()
+    },
+    edit (record) {
+      this.$refs.pluralismEdit.setFormValues(record)
+      this.pluralismEdit.visiable = true
+    },
+    handlepluralismEditClose () {
+      this.pluralismEdit.visiable = false
+    },
+    handlepluralismEditSuccess () {
+      this.pluralismEdit.visiable = false
+      this.$message.success('修改兼职成功')
+      this.search()
     },
     handleDeptChange (value) {
       this.queryParams.deptId = value || ''
@@ -332,7 +295,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/collect-info/' + ids).then(() => {
+          that.$delete('/cos/pluralism-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -354,7 +317,6 @@ export default {
       this.fetch({
         sortField: sortField,
         sortOrder: sortOrder,
-        type: this.currentKey,
         ...this.queryParams,
         ...filteredInfo
       })
@@ -389,10 +351,6 @@ export default {
         ...filters
       })
     },
-    callback (key) {
-      this.currentKey = key
-      this.fetch({type: key})
-    },
     fetch (params = {}) {
       // 显示loading
       this.loading = true
@@ -407,10 +365,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      if (params.readStatus === undefined) {
-        delete params.readStatus
-      }
-      this.$get('/cos/collect-info/page', {
+      this.$get('/cos/pluralism-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

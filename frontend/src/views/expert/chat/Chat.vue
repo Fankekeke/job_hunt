@@ -5,6 +5,7 @@
         <a-menu-item :key="index" style="height: 80px;margin: 0 auto;text-align: center;line-height: 80px" v-for="(item, index) in contactList" @click="onChange(item)">
           <a-avatar
             :size="46"
+            shape="square"
             icon="user"
             :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"
           />
@@ -27,7 +28,7 @@
             :data-source="chatList"
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
-              <a-comment :author="item.type == 1 ? item.expertName : item.enterpriseName" :avatar="'http://127.0.0.1:9527/imagesWeb/' + (item.type == 1 ? item.expertImages : item.enterpriseImages)">
+              <a-comment style="margin-left: 25px" :author="item.type == 1 ? item.expertName : item.enterpriseName" :avatar="'http://127.0.0.1:9527/imagesWeb/' + (item.type == 1 ? item.expertImages : item.enterpriseImages)">
                 <p slot="content">
                   {{ item.content }}
                 </p>

@@ -3,7 +3,9 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.CollectInfo;
+import cc.mrbird.febs.cos.entity.ExpertInfo;
 import cc.mrbird.febs.cos.service.ICollectInfoService;
+import cc.mrbird.febs.cos.service.IExpertInfoService;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,6 +26,8 @@ public class CollectInfoController {
 
     private final ICollectInfoService collectInfoService;
 
+    private final IExpertInfoService expertInfoService;
+
     /**
      * 分页获取收藏信息
      *
@@ -33,7 +37,9 @@ public class CollectInfoController {
      */
     @GetMapping("/page")
     public R page(Page<CollectInfo> page, CollectInfo collectInfo) {
-        return R.ok(collectInfoService.selectCollectPage(page, collectInfo));
+        ExpertInfo expertInfo  = expertInfoService.getOne(Wrappers.<ExpertInfo> lambdaQuery().eq(ExpertInfo::getUserId, collectInfo.getExpertCode()));
+        collectInfo.setExpertCode(expertInfo.getCode());
+        return R.ok(collectInfoService.collectList(page, collectInfo));
     }
 
     /**
@@ -102,8 +108,15 @@ public class CollectInfoController {
      */
     @PostMapping
     public R save(CollectInfo collectInfo) {
+        ExpertInfo expertInfo  = expertInfoService.getOne(Wrappers.<ExpertInfo> lambdaQuery().eq(ExpertInfo::getUserId, collectInfo.getExpertCode()));
+        collectInfo.setExpertCode(expertInfo.getCode());
         collectInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        return R.ok(collectInfoService.save(collectInfo));
+        int col = collectInfoService.count(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getBaseId, collectInfo.getBaseId()).eq(CollectInfo::getExpertCode, collectInfo.getExpertCode()).eq(CollectInfo::getType, collectInfo.getType()));
+        if (col > 0) {
+            return R.ok();
+        } else {
+            return R.ok(collectInfoService.save(collectInfo));
+        }
     }
 
     /**

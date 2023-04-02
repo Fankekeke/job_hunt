@@ -7,6 +7,7 @@ import cc.mrbird.febs.common.service.CacheService;
 import cc.mrbird.febs.common.utils.SortUtil;
 import cc.mrbird.febs.common.utils.MD5Util;
 import cc.mrbird.febs.cos.entity.EnterpriseInfo;
+import cc.mrbird.febs.cos.entity.ExpertInfo;
 import cc.mrbird.febs.cos.service.IEnterpriseInfoService;
 import cc.mrbird.febs.cos.service.IExpertInfoService;
 import cc.mrbird.febs.system.dao.UserMapper;
@@ -215,22 +216,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setSsex(User.SEX_UNKNOW);
         user.setAvatar(User.DEFAULT_AVATAR);
         user.setDescription("注册用户");
-        this.save(user);
+
 
 
         UserRole ur = new UserRole();
-        ur.setUserId(user.getUserId());
         switch (flag) {
-            case 1:
-                ur.setRoleId(77L);
-                break;
             case 2:
                 if (StrUtil.isNotEmpty(code) && enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getCode, code)) == null) {
-                    throw new FebsException("专家编号不存在");
+                    throw new FebsException("企业编号不存在");
                 }
                 String enterpriseCode = enterpriseInfoService.enterpriseRegister(code);
                 user.setUserCode(enterpriseCode);
-                ur.setRoleId(75L);
+                ur.setRoleId(76L);
                 break;
             case 3:
                 if (StrUtil.isNotEmpty(code) && !expertInfoService.checkExpert(code)) {
@@ -238,11 +235,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 }
                 String expertCode = expertInfoService.expertRegister(code);
                 user.setUserCode(expertCode);
-                ur.setRoleId(76L);
+                ur.setRoleId(75L);
                 break;
             default:
         }
+        this.save(user);
+        ur.setUserId(user.getUserId());
         this.userRoleMapper.insert(ur);
+
+        switch (flag) {
+            case 2:
+                enterpriseInfoService.update(Wrappers.<EnterpriseInfo> lambdaUpdate().set(EnterpriseInfo::getUserId, user.getUserId()).eq(EnterpriseInfo::getCode, user.getUserCode()));
+                break;
+            case 3:
+                expertInfoService.update(Wrappers.<ExpertInfo>lambdaUpdate().eq(ExpertInfo::getUserId, user.getUserId()).set(ExpertInfo::getCode, user.getUserCode()));
+                break;
+            default:
+        }
+
+        // 修改
 
         // 创建用户默认的个性化配置
         userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));

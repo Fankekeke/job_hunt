@@ -44,6 +44,12 @@
         <if test="pluralismInfo.enterpriseId != null">
             AND pi.enterprise_id = #{pluralismInfo.enterpriseId}
         </if>
+        <if test="pluralismInfo.delFlag != null">
+            AND pi.del_flag = #{pluralismInfo.delFlag}
+        </if>
+        <if test="pluralismInfo.enterpriseName != null and pluralismInfo.enterpriseName != ''">
+            AND ei.name LIKE CONCAT('%',#{pluralismInfo.enterpriseName},'%')
+        </if>
         order by
         pi.create_date desc
     </select>

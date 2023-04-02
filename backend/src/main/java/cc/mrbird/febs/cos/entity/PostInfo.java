@@ -107,4 +107,7 @@ public class PostInfo implements Serializable {
      * 福利
      */
     private String welfare;
+
+    @TableField(exist = false)
+    private String enterpriseName;
 }
