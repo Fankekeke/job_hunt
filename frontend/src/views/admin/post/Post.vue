@@ -184,7 +184,7 @@ export default {
         }
       }, {
         title: '工作地点',
-        dataIndex: 'workAddress',
+        dataIndex: 'address',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -366,6 +366,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
+      params.enterpriseId = this.currentUser.userId
       this.$get('/cos/post-info/page', {
         ...params
       }).then((r) => {

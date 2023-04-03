@@ -44,6 +44,9 @@
         <if test="interviewInfo.paymentMethod != null">
             AND pli.payment_method = #{interviewInfo.paymentMethod}
         </if>
+        <if test="interviewInfo.enterpriseId != null">
+            AND ini.enterprise_id = #{interviewInfo.enterpriseId}
+        </if>
         <if test="interviewInfo.status != null">
             AND ini.status = #{interviewInfo.status}
         </if>
@@ -84,6 +87,9 @@
         AND ini.`type` = 2
         <if test="interviewInfo.postName != null and interviewInfo.postName != ''">
             AND pli.post_name LIKE CONCAT('%',#{interviewInfo.postName},'%')
+        </if>
+        <if test="interviewInfo.enterpriseId != null">
+            AND ini.enterprise_id = #{interviewInfo.enterpriseId}
         </if>
         <if test="interviewInfo.status != null">
             AND ini.status = #{interviewInfo.status}

@@ -2,8 +2,10 @@ package cc.mrbird.febs.cos.controller;
 
 
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.entity.EnterpriseInfo;
 import cc.mrbird.febs.cos.entity.ExpertInfo;
 import cc.mrbird.febs.cos.entity.InterviewInfo;
+import cc.mrbird.febs.cos.service.IEnterpriseInfoService;
 import cc.mrbird.febs.cos.service.IExpertInfoService;
 import cc.mrbird.febs.cos.service.IInterviewInfoService;
 import cn.hutool.core.date.DateUtil;
@@ -28,6 +30,7 @@ public class InterviewInfoController {
 
     private final IExpertInfoService expertInfoService;
 
+    private final IEnterpriseInfoService enterpriseInfoService;
 
     /**
      * 分页获取面试信息
@@ -38,6 +41,10 @@ public class InterviewInfoController {
      */
     @GetMapping("/page")
     public R page(Page<InterviewInfo> page, InterviewInfo interviewInfo) {
+        if (interviewInfo.getEnterpriseId() != null) {
+            EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, interviewInfo.getEnterpriseId()));
+            interviewInfo.setEnterpriseId(enterpriseInfo.getId());
+        }
         return R.ok(interviewInfoService.selectInterViewPage(page, interviewInfo));
     }
 
