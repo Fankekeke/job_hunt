@@ -39,7 +39,7 @@
     </div>
     <div>
       <div class="operator">
-        <a-button type="primary" ghost @click="add">新增</a-button>
+<!--        <a-button type="primary" ghost @click="add">新增</a-button>-->
         <a-button @click="batchDelete">删除</a-button>
       </div>
       <!-- 表格区域 -->
@@ -73,6 +73,8 @@
           </template>
         </template>
         <template slot="operation" slot-scope="text, record">
+          <a-icon v-if="record.delFlag === 1" type="caret-down" @click="audit(record.id, 0)" title="下 架" style="margin-right: 10px"></a-icon>
+          <a-icon v-if="record.delFlag === 0" type="caret-up" @click="audit(record.id, 1)" title="上 架" style="margin-right: 10px"></a-icon>
           <a-icon type="cloud" @click="handlePostViewOpen(record)" title="详 情"></a-icon>
           <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修 改" style="margin-left: 15px"></a-icon>
         </template>
@@ -245,6 +247,12 @@ export default {
     this.fetch()
   },
   methods: {
+    audit (id, status) {
+      this.$get('/cos/post-info/audit', {postId: id, status}).then((r) => {
+        this.$message.success('修改成功')
+        this.search()
+      })
+    },
     handlePostViewClose () {
       this.postView.visiable = false
     },

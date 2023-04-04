@@ -7,6 +7,7 @@ import cc.mrbird.febs.cos.entity.ExpertInfo;
 import cc.mrbird.febs.cos.service.ICollectInfoService;
 import cc.mrbird.febs.cos.service.IExpertInfoService;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,15 @@ public class CollectInfoController {
      */
     @GetMapping("/page")
     public R page(Page<CollectInfo> page, CollectInfo collectInfo) {
-        ExpertInfo expertInfo  = expertInfoService.getOne(Wrappers.<ExpertInfo> lambdaQuery().eq(ExpertInfo::getUserId, collectInfo.getExpertCode()));
-        collectInfo.setExpertCode(expertInfo.getCode());
+        if (StrUtil.isNotBlank(collectInfo.getExpertCode())) {
+            ExpertInfo expertInfo  = expertInfoService.getOne(Wrappers.<ExpertInfo> lambdaQuery().eq(ExpertInfo::getUserId, collectInfo.getExpertCode()));
+            if (expertInfo != null) {
+                collectInfo.setExpertCode(expertInfo.getCode());
+            } else {
+                collectInfo.setExpertCode(null);
+            }
+        }
+
         return R.ok(collectInfoService.collectList(page, collectInfo));
     }
 

@@ -39,7 +39,11 @@ public class PluralismInfoController {
     public R page(Page<PluralismInfo> page, PluralismInfo pluralismInfo) {
         if (pluralismInfo.getEnterpriseId() != null) {
             EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, pluralismInfo.getEnterpriseId()));
-            pluralismInfo.setEnterpriseId(enterpriseInfo.getId());
+            if (enterpriseInfo != null) {
+                pluralismInfo.setEnterpriseId(enterpriseInfo.getId());
+            } else {
+                pluralismInfo.setEnterpriseId(null);
+            }
         }
         return R.ok(pluralismInfoService.selectPluralismPage(page, pluralismInfo));
     }

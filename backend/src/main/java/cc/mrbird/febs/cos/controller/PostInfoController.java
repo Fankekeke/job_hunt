@@ -39,7 +39,11 @@ public class PostInfoController {
     public R page(Page<PostInfo> page, PostInfo postInfo) {
         if (postInfo.getEnterpriseId() != null) {
             EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, postInfo.getEnterpriseId()));
-            postInfo.setEnterpriseId(enterpriseInfo.getId());
+            if (enterpriseInfo != null) {
+                postInfo.setEnterpriseId(enterpriseInfo.getId());
+            } else {
+                postInfo.setEnterpriseId(null);
+            }
         }
         return R.ok(postInfoService.selectPostPage(page, postInfo));
     }
