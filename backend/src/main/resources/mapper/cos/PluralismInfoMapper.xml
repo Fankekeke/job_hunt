@@ -21,6 +21,7 @@
         pi.enterprise_id,
         pi.salary,
         ei.name as enterpriseName,
+        ei.code as enterpriseCode,
         ei.nature,
         ei.industry,
         ei.images,

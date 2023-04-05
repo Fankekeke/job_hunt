@@ -51,6 +51,7 @@
               </template>
             </template>
             <template slot="operation" slot-scope="text, record">
+              <a-icon type="cloud" @click="handleViewOpen(record)" title="详 情"></a-icon>
             </template>
           </a-table>
         </a-tab-pane>
@@ -71,11 +72,17 @@
               </template>
             </template>
             <template slot="operation" slot-scope="text, record">
+              <a-icon type="cloud" @click="handleViewOpen(record)" title="详 情"></a-icon>
             </template>
           </a-table>
         </a-tab-pane>
       </a-tabs>
     </div>
+    <audit-view
+      @close="handleViewClose"
+      :pluralismShow="interView.visiable"
+      :pluralismData="interView.data">
+    </audit-view>
   </a-card>
 </template>
 
@@ -83,14 +90,15 @@
 import RangeDate from '@/components/datetime/RangeDate'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import AuditView from './AuditView.vue'
 moment.locale('zh-cn')
 
 export default {
   name: 'User',
-  components: {RangeDate},
+  components: {AuditView, RangeDate},
   data () {
     return {
-      userView: {
+      interView: {
         visiable: false,
         data: null
       },
@@ -194,6 +202,10 @@ export default {
       }, {
         title: '面试时间',
         dataIndex: 'createDate'
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: {customRender: 'operation'}
       }]
     },
     postColumns () {
@@ -255,6 +267,10 @@ export default {
       }, {
         title: '面试时间',
         dataIndex: 'createDate'
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: {customRender: 'operation'}
       }]
     }
   },
@@ -262,6 +278,13 @@ export default {
     this.fetch({type: 1})
   },
   methods: {
+    handleViewClose () {
+      this.interView.visiable = false
+    },
+    handleViewOpen (row) {
+      this.interView.data = row
+      this.interView.visiable = true
+    },
     view (row) {
       this.userView.data = row
       this.userView.visiable = true
