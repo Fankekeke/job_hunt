@@ -39,7 +39,6 @@ public class InterviewInfoController {
     private final IPluralismInfoService pluralismInfoService;
 
 
-
     /**
      * 分页获取面试信息
      *
@@ -74,13 +73,12 @@ public class InterviewInfoController {
      */
     @PostMapping
     public R save(InterviewInfo interviewInfo) {
-        ExpertInfo expertInfo  = expertInfoService.getOne(Wrappers.<ExpertInfo> lambdaQuery().eq(ExpertInfo::getUserId, interviewInfo.getExpertId()));
+        ExpertInfo expertInfo = expertInfoService.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getUserId, interviewInfo.getExpertId()));
         interviewInfo.setExpertId(expertInfo.getId());
         interviewInfo.setDelFlag(0);
         interviewInfo.setStatus(1);
 
         NotifyInfo notifyInfo = new NotifyInfo();
-        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         notifyInfo.setDelFlag(0);
         EnterpriseInfo enterpriseInfo = enterpriseInfoService.getById(interviewInfo.getEnterpriseId());
         notifyInfo.setUserCode(enterpriseInfo.getCode());
@@ -91,9 +89,45 @@ public class InterviewInfoController {
         return R.ok(interviewInfoService.save(interviewInfo));
     }
 
+    /**
+     * 面试深恶黑
+     *
+     * @param interviewInfo 面试信息
+     * @return 结果
+     */
+    @PostMapping("/audit")
+    public R audit(InterviewInfo interviewInfo) {
+        NotifyInfo notifyInfo = new NotifyInfo();
+        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        notifyInfo.setDelFlag(0);
+        ExpertInfo expertInfo = expertInfoService.getById(interviewInfo.getExpertId());
+        notifyInfo.setUserCode(expertInfo.getCode());
+        notifyInfo.setName(expertInfo.getName());
+        String message = "";
+        if (interviewInfo.getStatus() == 3) {
+            message = "您的简历不符合我们的要求。";
+        } else if (interviewInfo.getStatus() == 4) {
+            message = "希望您参加面试，面试时间：" + interviewInfo.getCreateDate();
+        }
+        notifyInfo.setContent("你好，感谢您投递简历，" + message);
+        notifyInfoService.save(notifyInfo);
+        return R.ok(interviewInfoService.updateById(interviewInfo));
+    }
+
+    /**
+     * 面试详情
+     *
+     * @param id 面试ID
+     * @return 结果
+     */
     @GetMapping("/detail/{id}")
     public R selectInterViewDetail(@PathVariable("id") Integer id) {
         InterviewInfo interviewInfo = interviewInfoService.getById(id);
+        // 更新面试状态
+        if (interviewInfo.getStatus() == 1) {
+            interviewInfo.setStatus(2);
+            interviewInfoService.updateById(interviewInfo);
+        }
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.put("staff", expertInfoService.getById(interviewInfo.getExpertId()));
         if (interviewInfo.getType() == 1) {

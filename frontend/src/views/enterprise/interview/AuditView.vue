@@ -1,8 +1,11 @@
 <template>
   <a-modal v-model="show" title="面试详情" @cancel="onClose" :width="800">
     <template slot="footer">
-      <a-button key="back" @click="onClose" type="danger">
-        关闭
+      <a-button key="check" @click="onCheck(4)">
+        邀约面试
+      </a-button>
+      <a-button key="back" @click="onCheck(3)" type="danger">
+        驳回
       </a-button>
     </template>
     <div style="font-size: 13px;font-family: SimHei" v-if="expertData !== null">
@@ -199,6 +202,13 @@
         <br/>
       </a-row>
       <br/>
+      <br/>
+    </div>
+    <div style="font-size: 13px;font-family: SimHei">
+      <a-row style="padding-left: 24px;padding-right: 24px;">
+        <a-col style="margin-bottom: 15px"><span style="font-size: 15px;font-weight: 650;color: #000c17">面试时间</span></a-col>
+        <a-date-picker v-model="interDate" />
+      </a-row>
     </div>
   </a-modal>
 </template>
@@ -242,17 +252,35 @@ export default {
       previewImage: '',
       expertData: null,
       postInfo: null,
-      pluralismInfo: null
+      pluralismInfo: null,
+      interDate: null
     }
   },
   watch: {
     pluralismShow: function (value) {
       if (value) {
+        this.interDate = null
         this.getInterViewDetail(this.pluralismData.id)
       }
     }
   },
   methods: {
+    onCheck (status) {
+      var data = Object.assign({}, this.pluralismData)
+      if (status === 4) {
+        if (!this.interDate) {
+          this.$message.error('请选择时间！')
+          return false
+        } else {
+          var date = moment(this.interDate).format('YYYY-MM-DD')
+          data.createDate = date
+        }
+      }
+      data.status = status
+      this.$post(`/cos/interview-info/audit`, {...data}).then((r) => {
+        this.$emit('success')
+      })
+    },
     getInterViewDetail (id) {
       this.$get(`/cos/interview-info/detail/${id}`).then((r) => {
         this.expertData = r.data.staff

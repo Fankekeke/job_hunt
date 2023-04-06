@@ -80,6 +80,7 @@
     </div>
     <audit-view
       @close="handleViewClose"
+      @success="handleViewSuccess"
       :pluralismShow="interView.visiable"
       :pluralismData="interView.data">
     </audit-view>
@@ -167,9 +168,9 @@ export default {
             case 2:
               return <a-tag>已查看</a-tag>
             case 3:
-              return <a-tag>不符合</a-tag>
+              return <a-tag color="red">不符合</a-tag>
             case 4:
-              return <a-tag>邀约面试</a-tag>
+              return <a-tag color="black">邀约面试</a-tag>
             case 5:
               return <a-tag>面试结束</a-tag>
             default:
@@ -201,7 +202,14 @@ export default {
         dataIndex: 'salary'
       }, {
         title: '面试时间',
-        dataIndex: 'createDate'
+        dataIndex: 'createDate',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
       }, {
         title: '操作',
         dataIndex: 'operation',
@@ -249,9 +257,9 @@ export default {
             case 2:
               return <a-tag>已查看</a-tag>
             case 3:
-              return <a-tag>不符合</a-tag>
+              return <a-tag color="red">不符合</a-tag>
             case 4:
-              return <a-tag>邀约面试</a-tag>
+              return <a-tag color="black">邀约面试</a-tag>
             case 5:
               return <a-tag>面试结束</a-tag>
             default:
@@ -266,7 +274,14 @@ export default {
         dataIndex: 'salary'
       }, {
         title: '面试时间',
-        dataIndex: 'createDate'
+        dataIndex: 'createDate',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
       }, {
         title: '操作',
         dataIndex: 'operation',
@@ -280,6 +295,11 @@ export default {
   methods: {
     handleViewClose () {
       this.interView.visiable = false
+    },
+    handleViewSuccess () {
+      this.$message.success('更新成功')
+      this.interView.visiable = false
+      this.search()
     },
     handleViewOpen (row) {
       this.interView.data = row

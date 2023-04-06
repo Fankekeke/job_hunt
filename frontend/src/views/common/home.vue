@@ -67,6 +67,70 @@
             </a-row>
           </a-col>
         </a-col>
+        <a-col :span="24" style="margin-top: 20px">
+          <a-col style="margin-bottom: 15px">
+            <i style="font-size: 23px;color: #000c17">岗位</i>
+            <a style="font-size:13px;margin-left: 15px" @click="$router.push('/epview')">-> 更多</a>
+          </a-col>
+          <a-col>
+            <a-row :gutter="15">
+              <a-col span="8" v-for="(item, index) in enterpriseList" :key="index" style="margin-bottom: 15px">
+                <a-card hoverable>
+                  <template slot="actions" class="ant-card-actions">
+                    <a-icon key="ellipsis" type="ellipsis" @click="handleEnterpriseViewOpen(item)"/>
+                  </template>
+                  <a-card-meta>
+                    <span slot="title">
+                      {{ item.name }} <span style="font-size: 12px"> - {{ item.nature }}</span>
+                    </span>
+                    <span slot="description">
+                      <span style="font-size: 12px"> {{ item.industry }} - {{ item.status }}</span>
+                      <div style="margin-top: 5px;font-size: 12px">
+                        {{ item.unitDescription != null ? item.unitDescription.slice(0, 30) + '...' : ' - - ' }}
+                      </div>
+                    </span>
+                    <a-avatar
+                      slot="avatar"
+                      :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"
+                    />
+                  </a-card-meta>
+                </a-card>
+              </a-col>
+            </a-row>
+          </a-col>
+        </a-col>
+        <a-col :span="24" style="margin-top: 20px">
+          <a-col style="margin-bottom: 15px">
+            <i style="font-size: 23px;color: #000c17">兼职z</i>
+            <a style="font-size:13px;margin-left: 15px" @click="$router.push('/epview')">-> 更多</a>
+          </a-col>
+          <a-col>
+            <a-row :gutter="15">
+              <a-col span="8" v-for="(item, index) in enterpriseList" :key="index" style="margin-bottom: 15px">
+                <a-card hoverable>
+                  <template slot="actions" class="ant-card-actions">
+                    <a-icon key="ellipsis" type="ellipsis" @click="handleEnterpriseViewOpen(item)"/>
+                  </template>
+                  <a-card-meta>
+                    <span slot="title">
+                      {{ item.name }} <span style="font-size: 12px"> - {{ item.nature }}</span>
+                    </span>
+                    <span slot="description">
+                      <span style="font-size: 12px"> {{ item.industry }} - {{ item.status }}</span>
+                      <div style="margin-top: 5px;font-size: 12px">
+                        {{ item.unitDescription != null ? item.unitDescription.slice(0, 30) + '...' : ' - - ' }}
+                      </div>
+                    </span>
+                    <a-avatar
+                      slot="avatar"
+                      :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"
+                    />
+                  </a-card-meta>
+                </a-card>
+              </a-col>
+            </a-row>
+          </a-col>
+        </a-col>
       </a-row>
     </a-col>
     <a-col :span="6">
