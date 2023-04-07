@@ -101,7 +101,7 @@
         </a-col>
         <a-col :span="24" style="margin-top: 20px">
           <a-col style="margin-bottom: 15px">
-            <i style="font-size: 23px;color: #000c17">兼职z</i>
+            <i style="font-size: 23px;color: #000c17">兼职</i>
             <a style="font-size:13px;margin-left: 15px" @click="$router.push('/epview')">-> 更多</a>
           </a-col>
           <a-col>

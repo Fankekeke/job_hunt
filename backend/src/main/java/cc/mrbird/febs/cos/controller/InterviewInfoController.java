@@ -97,20 +97,22 @@ public class InterviewInfoController {
      */
     @PostMapping("/audit")
     public R audit(InterviewInfo interviewInfo) {
-        NotifyInfo notifyInfo = new NotifyInfo();
-        notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        notifyInfo.setDelFlag(0);
-        ExpertInfo expertInfo = expertInfoService.getById(interviewInfo.getExpertId());
-        notifyInfo.setUserCode(expertInfo.getCode());
-        notifyInfo.setName(expertInfo.getName());
-        String message = "";
-        if (interviewInfo.getStatus() == 3) {
-            message = "您的简历不符合我们的要求。";
-        } else if (interviewInfo.getStatus() == 4) {
-            message = "希望您参加面试，面试时间：" + interviewInfo.getCreateDate();
+        if (interviewInfo.getStatus() == 3 || interviewInfo.getStatus() == 4) {
+            NotifyInfo notifyInfo = new NotifyInfo();
+            notifyInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+            notifyInfo.setDelFlag(0);
+            ExpertInfo expertInfo = expertInfoService.getById(interviewInfo.getExpertId());
+            notifyInfo.setUserCode(expertInfo.getCode());
+            notifyInfo.setName(expertInfo.getName());
+            String message = "";
+            if (interviewInfo.getStatus() == 3) {
+                message = "您的简历不符合我们的要求。";
+            } else if (interviewInfo.getStatus() == 4) {
+                message = "希望您参加面试，面试时间：" + interviewInfo.getCreateDate();
+            }
+            notifyInfo.setContent("你好，感谢您投递简历，" + message);
+            notifyInfoService.save(notifyInfo);
         }
-        notifyInfo.setContent("你好，感谢您投递简历，" + message);
-        notifyInfoService.save(notifyInfo);
         return R.ok(interviewInfoService.updateById(interviewInfo));
     }
 
