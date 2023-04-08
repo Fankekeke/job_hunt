@@ -47,6 +47,9 @@
         <if test="interviewInfo.enterpriseId != null">
             AND ini.enterprise_id = #{interviewInfo.enterpriseId}
         </if>
+        <if test="interviewInfo.expertId != null">
+            AND ini.expert_id = #{interviewInfo.expertId}
+        </if>
         <if test="interviewInfo.status != null">
             AND ini.status = #{interviewInfo.status}
         </if>
@@ -90,6 +93,9 @@
         </if>
         <if test="interviewInfo.enterpriseId != null">
             AND ini.enterprise_id = #{interviewInfo.enterpriseId}
+        </if>
+        <if test="interviewInfo.expertId != null">
+            AND ini.expert_id = #{interviewInfo.expertId}
         </if>
         <if test="interviewInfo.status != null">
             AND ini.status = #{interviewInfo.status}

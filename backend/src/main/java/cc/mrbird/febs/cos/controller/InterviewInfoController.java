@@ -50,7 +50,19 @@ public class InterviewInfoController {
     public R page(Page<InterviewInfo> page, InterviewInfo interviewInfo) {
         if (interviewInfo.getEnterpriseId() != null) {
             EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getUserId, interviewInfo.getEnterpriseId()));
-            interviewInfo.setEnterpriseId(enterpriseInfo.getId());
+            if (enterpriseInfo != null) {
+                interviewInfo.setEnterpriseId(enterpriseInfo.getId());
+            } else {
+                interviewInfo.setEnterpriseId(null);
+            }
+        }
+        if (interviewInfo.getExpertId() != null) {
+            ExpertInfo expertInfo = expertInfoService.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getUserId, interviewInfo.getEnterpriseId()));
+            if (expertInfo != null) {
+                interviewInfo.setExpertId(expertInfo.getId());
+            } else {
+                interviewInfo.setExpertId(null);
+            }
         }
         return R.ok(interviewInfoService.selectInterViewPage(page, interviewInfo));
     }
