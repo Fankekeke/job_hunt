@@ -57,7 +57,7 @@ public class InterviewInfoController {
             }
         }
         if (interviewInfo.getExpertId() != null) {
-            ExpertInfo expertInfo = expertInfoService.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getUserId, interviewInfo.getEnterpriseId()));
+            ExpertInfo expertInfo = expertInfoService.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getUserId, interviewInfo.getExpertId()));
             if (expertInfo != null) {
                 interviewInfo.setExpertId(expertInfo.getId());
             } else {

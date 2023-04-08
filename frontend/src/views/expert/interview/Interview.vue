@@ -51,6 +51,7 @@
               </template>
             </template>
             <template slot="operation" slot-scope="text, record">
+              <a-icon type="pushpin" @click="handleClose(record)" title="删 除" v-if="record.status != 3 && record.status != 5"></a-icon>
             </template>
           </a-table>
         </a-tab-pane>
@@ -71,6 +72,7 @@
               </template>
             </template>
             <template slot="operation" slot-scope="text, record">
+              <a-icon type="pushpin" @click="handleClose(record)" title="删 除" v-if="record.status != 3 && record.status != 5"></a-icon>
             </template>
           </a-table>
         </a-tab-pane>
@@ -194,6 +196,10 @@ export default {
       }, {
         title: '面试时间',
         dataIndex: 'createDate'
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: {customRender: 'operation'}
       }]
     },
     postColumns () {
@@ -255,6 +261,10 @@ export default {
       }, {
         title: '面试时间',
         dataIndex: 'createDate'
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        scopedSlots: {customRender: 'operation'}
       }]
     }
   },
@@ -262,6 +272,13 @@ export default {
     this.fetch({type: 1})
   },
   methods: {
+    handleClose (row) {
+      row.status = 5
+      this.$post(`/cos/interview-info/audit`, {...row}).then((r) => {
+        this.$message.success('撤销成功')
+        this.search()
+      })
+    },
     view (row) {
       this.userView.data = row
       this.userView.visiable = true
