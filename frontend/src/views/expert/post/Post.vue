@@ -56,6 +56,7 @@
           <div style="font-size: 13px;font-family: SimHei;margin-top: 15px">
             <a-avatar shape="square" icon="user" :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"/>
             <b style="margin-left: 5px">{{ item.enterpriseName }}</b>
+            <a @click="chat(item)">【联系】</a>
           </div>
           <template slot="actions" class="ant-card-actions">
             <a-icon key="folder-add" type="folder-add" @click="sendInter(item)">投递</a-icon>
@@ -94,6 +95,16 @@ export default {
     this.selectRentList()
   },
   methods: {
+    chat (item) {
+      this.$post(`/cos/chat-info`, {
+        expertCode: this.currentUser.userCode,
+        enterpriseCode: item.enterpriseCode,
+        type: 1,
+        content: '你好'
+      }).then((r) => {
+        this.$router.push('/expert/chat')
+      })
+    },
     search () {
       this.selectRentList({
         ...this.queryParams
