@@ -64,6 +64,12 @@
         where
         1 = 1
         <if test="flag != null and flag == 2">
+            and ci.enterprise_code = #{userCode}
+        </if>
+        <if test="flag != null and flag == 1">
+            and ci.expert_code = #{userCode}
+        </if>
+        <if test="flag != null and flag == 2">
             group by ci.expert_code
         </if>
         <if test="flag != null and flag == 1">

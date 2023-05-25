@@ -217,7 +217,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setAvatar(User.DEFAULT_AVATAR);
         user.setDescription("注册用户");
 
-
+        ExpertInfo expertInfo = new ExpertInfo();
+        EnterpriseInfo enterpriseInfo = new EnterpriseInfo();
 
         UserRole ur = new UserRole();
         switch (flag) {
@@ -225,16 +226,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 if (StrUtil.isNotEmpty(code) && enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getCode, code)) == null) {
                     throw new FebsException("企业编号不存在");
                 }
-                String enterpriseCode = enterpriseInfoService.enterpriseRegister(code);
-                user.setUserCode(enterpriseCode);
+                if (StrUtil.isNotEmpty(code)) {
+                    enterpriseInfoService.update(Wrappers.<EnterpriseInfo> lambdaUpdate().set(EnterpriseInfo::getUserId, user.getUserId()).eq(EnterpriseInfo::getCode, user.getUserCode()));
+                } else {
+                    enterpriseInfo.setCode("EP-" + System.currentTimeMillis());
+                    enterpriseInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+                }
+                user.setUserCode(enterpriseInfo.getCode());
                 ur.setRoleId(76L);
                 break;
             case 3:
                 if (StrUtil.isNotEmpty(code) && !expertInfoService.checkExpert(code)) {
                     throw new FebsException("专家编号不存在");
                 }
-                String expertCode = expertInfoService.expertRegister(code);
-                user.setUserCode(expertCode);
+                if (StrUtil.isNotEmpty(code)) {
+                    expertInfoService.update(Wrappers.<ExpertInfo>lambdaUpdate().eq(ExpertInfo::getUserId, user.getUserId()).set(ExpertInfo::getCode, user.getUserCode()));
+                    expertInfoService.update(Wrappers.<ExpertInfo>lambdaUpdate().set(ExpertInfo::getHasExist, 1).eq(ExpertInfo::getCode, code));
+                } else {
+                    expertInfo.setHasExist(1);
+                    expertInfo.setOpenFlag(1);
+                    expertInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+                    expertInfo.setCode("EX-" + System.currentTimeMillis());
+                }
+                user.setUserCode(expertInfo.getCode());
                 ur.setRoleId(75L);
                 break;
             default:
@@ -243,17 +257,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         ur.setUserId(user.getUserId());
         this.userRoleMapper.insert(ur);
 
-        switch (flag) {
-            case 2:
-                enterpriseInfoService.update(Wrappers.<EnterpriseInfo> lambdaUpdate().set(EnterpriseInfo::getUserId, user.getUserId()).eq(EnterpriseInfo::getCode, user.getUserCode()));
-                break;
-            case 3:
-                expertInfoService.update(Wrappers.<ExpertInfo>lambdaUpdate().eq(ExpertInfo::getUserId, user.getUserId()).set(ExpertInfo::getCode, user.getUserCode()));
-                break;
-            default:
+        if (flag == 3 && StrUtil.isEmpty(code)) {
+            expertInfo.setUserId(Math.toIntExact(user.getUserId()));
+            expertInfoService.save(expertInfo);
         }
 
-        // 修改
+        if (flag == 2 && StrUtil.isEmpty(code)) {
+            enterpriseInfo.setUserId(Math.toIntExact(user.getUserId()));
+            enterpriseInfoService.save(enterpriseInfo);
+        }
+
 
         // 创建用户默认的个性化配置
         userConfigService.initDefaultUserConfig(String.valueOf(user.getUserId()));
