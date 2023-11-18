@@ -118,7 +118,7 @@ export default {
       this.$post('/cos/collect-info', {
         expertCode: this.currentUser.userId,
         baseId: row.id,
-        type: 2,
+        type: 3,
         enterpriseId: row.enterpriseId
       }).then((r) => {
         this.$message.success('收藏成功')

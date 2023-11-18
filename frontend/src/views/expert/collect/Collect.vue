@@ -117,7 +117,7 @@ export default {
         dataIndex: 'expertName'
       }, {
         title: '企业名称',
-        dataIndex: 'expertName'
+        dataIndex: 'enterName'
       }, {
         title: '求职者头像',
         dataIndex: 'expertImages',
@@ -141,7 +141,7 @@ export default {
         dataIndex: 'expertName'
       }, {
         title: '企业名称',
-        dataIndex: 'expertName'
+        dataIndex: 'enterName'
       }, {
         title: '求职者头像',
         dataIndex: 'expertImages',
@@ -208,7 +208,7 @@ export default {
         dataIndex: 'expertName'
       }, {
         title: '企业名称',
-        dataIndex: 'expertName'
+        dataIndex: 'enterName'
       }, {
         title: '求职者头像',
         dataIndex: 'expertImages',
