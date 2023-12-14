@@ -104,6 +104,22 @@ public class TreeUtil {
         });
 
         router = new VueRouter<>();
+        router.setPath("/expert/post");
+        router.setName("岗位信息");
+        router.setComponent("expert/post/Post");
+        router.setIcon("none");
+        router.setMeta(new RouterMeta(true, false));
+        topRoutes.add(router);
+
+        router = new VueRouter<>();
+        router.setPath("/expert/pluralism");
+        router.setName("兼职信息");
+        router.setComponent("expert/pluralism/Pluralism");
+        router.setIcon("none");
+        router.setMeta(new RouterMeta(true, false));
+        topRoutes.add(router);
+
+        router = new VueRouter<>();
         router.setPath("/profile");
         router.setName("个人中心");
         router.setComponent("personal/Profile");

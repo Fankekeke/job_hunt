@@ -94,14 +94,14 @@ public class ChatInfoController {
         notifyInfo.setDelFlag(0);
         if (chatInfo.getType() == 1) {
             notifyInfo.setUserCode(chatInfo.getEnterpriseCode());
-            notifyInfo.setContent("你好，收到企业发来消息，" + chatInfo.getContent());
+            notifyInfo.setContent("你好，收到求职者发来消息，" + chatInfo.getContent());
             EnterpriseInfo enterpriseInfo = enterpriseInfoService.getOne(Wrappers.<EnterpriseInfo>lambdaQuery().eq(EnterpriseInfo::getCode, chatInfo.getEnterpriseCode()));
             if (enterpriseInfo != null) {
                 notifyInfo.setName(enterpriseInfo.getName());
             }
         } else {
             notifyInfo.setUserCode(chatInfo.getExpertCode());
-            notifyInfo.setContent("你好，收到专家发来消息，" + chatInfo.getContent());
+            notifyInfo.setContent("你好，收到企业发来消息，" + chatInfo.getContent());
             ExpertInfo expertInfo = expertInfoService.getOne(Wrappers.<ExpertInfo>lambdaQuery().eq(ExpertInfo::getCode, chatInfo.getExpertCode()));
             if (expertInfo != null) {
                 notifyInfo.setName(expertInfo.getName());

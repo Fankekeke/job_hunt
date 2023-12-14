@@ -1,64 +1,66 @@
 <template>
-  <a-row :gutter="20" style="width: 100%;margin-top: 30px">
-    <a-col>
-      <a-form layout="horizontal">
-        <a-row :gutter="15">
-          <div :class="advanced ? null: 'fold'">
-            <a-col :md="6" :sm="24">
-              <a-form-item
-                label="兼职标题"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.title"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="6" :sm="24">
-              <a-form-item
-                label="岗位名称"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.postName"/>
-              </a-form-item>
-            </a-col>
-          </div>
-          <span style="float: right; margin-top: 3px;">
+  <a-card style="width: 75%;margin: 0 auto;padding: 30px">
+    <a-row :gutter="20" style="width: 100%;margin-top: 30px">
+      <a-col>
+        <a-form layout="horizontal">
+          <a-row :gutter="15">
+            <div :class="advanced ? null: 'fold'">
+              <a-col :md="6" :sm="24">
+                <a-form-item
+                  label="兼职标题"
+                  :labelCol="{span: 4}"
+                  :wrapperCol="{span: 18, offset: 2}">
+                  <a-input v-model="queryParams.title"/>
+                </a-form-item>
+              </a-col>
+              <a-col :md="6" :sm="24">
+                <a-form-item
+                  label="岗位名称"
+                  :labelCol="{span: 4}"
+                  :wrapperCol="{span: 18, offset: 2}">
+                  <a-input v-model="queryParams.postName"/>
+                </a-form-item>
+              </a-col>
+            </div>
+            <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
           </span>
-        </a-row>
-      </a-form>
-    </a-col>
-    <a-col :span="6" v-for="(item, index) in rentList" :key="index">
-      <div style="width: 100%;margin-bottom: 15px;text-align: left;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-        <a-card :bordered="false" hoverable>
-          <a-card-meta style="margin-top: 10px">
-            <template slot="title">
-              {{ item.title }} - {{ item.postName }}
+          </a-row>
+        </a-form>
+      </a-col>
+      <a-col :span="6" v-for="(item, index) in rentList" :key="index">
+        <div style="width: 100%;margin-bottom: 15px;text-align: left;box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+          <a-card :bordered="false" hoverable>
+            <a-card-meta style="margin-top: 10px">
+              <template slot="title">
+                {{ item.title }} - {{ item.postName }}
+              </template>
+              <template slot="description">
+                {{ item.workDescribe.slice(0, 60) }}...
+              </template>
+            </a-card-meta>
+            <div style="font-size: 12px;font-family: SimHei;margin-top: 15px">
+              <span>{{ item.welfare }}</span> |
+              <span  style="margin-left: 2px">{{ item.industryName }}</span> |
+              <span style="margin-left: 2px">{{ item.workHour }}</span> |
+              <span style="color: #f5222d; font-size: 13px;float: right">{{ item.salary }}</span>
+            </div>
+            <div style="font-size: 13px;font-family: SimHei;margin-top: 15px">
+              <a-avatar shape="square" icon="user" :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"/>
+              <b style="margin-left: 5px">{{ item.enterpriseName }}</b>
+              <a @click="chat(item)">【联系】</a>
+            </div>
+            <template slot="actions" class="ant-card-actions">
+              <a-icon key="folder-add" type="folder-add" @click="sendInter(item)">投递</a-icon>
+              <a-icon key="contacts" type="contacts" @click="rentDetail(item)">详情</a-icon>
+              <a-icon key="heart" type="heart" @click="sendCollect(item)">收藏</a-icon>
             </template>
-            <template slot="description">
-              {{ item.workDescribe.slice(0, 60) }}...
-            </template>
-          </a-card-meta>
-          <div style="font-size: 12px;font-family: SimHei;margin-top: 15px">
-            <span>{{ item.welfare }}</span> |
-            <span  style="margin-left: 2px">{{ item.industryName }}</span> |
-            <span style="margin-left: 2px">{{ item.workHour }}</span> |
-            <span style="color: #f5222d; font-size: 13px;float: right">{{ item.salary }}</span>
-          </div>
-          <div style="font-size: 13px;font-family: SimHei;margin-top: 15px">
-            <a-avatar shape="square" icon="user" :src="'http://127.0.0.1:9527/imagesWeb/' + item.images"/>
-            <b style="margin-left: 5px">{{ item.enterpriseName }}</b>
-            <a @click="chat(item)">【联系】</a>
-          </div>
-          <template slot="actions" class="ant-card-actions">
-            <a-icon key="folder-add" type="folder-add" @click="sendInter(item)">投递</a-icon>
-            <a-icon key="contacts" type="contacts" @click="rentDetail(item)">详情</a-icon>
-            <a-icon key="heart" type="heart" @click="sendCollect(item)">收藏</a-icon>
-          </template>
-        </a-card>
-      </div>
-    </a-col>
-    <rent-view :pluralismShow="rentView.visiable" :pluralismData="rentView.data" @close="rentView.visiable = false"></rent-view>
-  </a-row>
+          </a-card>
+        </div>
+      </a-col>
+      <rent-view :pluralismShow="rentView.visiable" :pluralismData="rentView.data" @close="rentView.visiable = false"></rent-view>
+    </a-row>
+  </a-card>
 </template>
 
 <script>
