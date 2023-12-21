@@ -1,4 +1,4 @@
-### 基于SpringBoot的大学生兼职平台
+### 基于SpringBoot + Vue的大学生兼职平台
 
 #### 安装环境
 
