@@ -69,6 +69,7 @@ zhangsan
 |![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015343914.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015372385.jpg) |
 |![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015441332.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015326229.jpg) |
 |![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015427331.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015306245.jpg) |
+| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/work/936e9baf53eb9a217af4f89c616dc19.png) |
 
 #### 演示视频
 
