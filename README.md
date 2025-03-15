@@ -1,5 +1,3 @@
-### 基于SpringBoot + Vue的大学生兼职平台
-
 #### 安装环境
 
 JAVA 环境 
