@@ -36,40 +36,7 @@ WebStorm OR VScode 编译器 [https://www.jianshu.com/p/d63b5bae9dff]
 2.导入sql文件，修改数据库与redis连接配置
 3.idea中启动后端项目
 
-### 管理员
-公告管理，沟通信息，收藏列表，企业管理，求职者管理，行业管理，面试管理，消息通知，兼职管理，岗位管理
 
-### 企业
-企业信息管理，兼职管理，岗位管理，沟通记录，面试审核
-
-### 求职者
-求职信息管理，岗位信息，兼职信息，我的收藏，我的面试，企业沟通
-
-
-#### 默认后台账户密码
-
-[管理员]
-admin
-1234qwer
-
-[企业]
-xian
-1234qwer
-
-[求职者]
-zhangsan
-1234qwer
-
-
-#### 项目截图
-
-|  |  |
-|---------------------|---------------------|
-|![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015284410.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015397264.jpg) |
-|![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015343914.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015372385.jpg) |
-|![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015441332.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015326229.jpg) |
-|![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015427331.jpg) | ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/1681015306245.jpg) |
-| ![](https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/work/936e9baf53eb9a217af4f89c616dc19.png) |
 
 #### 演示视频
 
