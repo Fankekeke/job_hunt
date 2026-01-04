@@ -1,6 +1,15 @@
-<p><img align="center" src="https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/%E5%90%88%E4%BD%9C%E7%89%A9%E6%96%99%E6%A0%B7%E5%BC%8F%20(3).png" alt="fankekeke" /></p>
-
 ### 基于SpringBoot + Vue的大学生兼职平台
+
+大学生兼职平台、校园兼职小程序、学生勤工俭学系统、兼职招聘、高校实习兼职对接平台、安全靠谱兼职
+
+### 管理员
+公告管理，沟通信息，收藏列表，企业管理，求职者管理，行业管理，面试管理，消息通知，兼职管理，岗位管理
+
+### 企业
+企业信息管理，兼职管理，岗位管理，沟通记录，面试审核
+
+### 求职者
+求职信息管理，岗位信息，兼职信息，我的收藏，我的面试，企业沟通
 
 #### 安装环境
 
@@ -37,15 +46,6 @@ WebStorm OR VScode 编译器 [https://www.jianshu.com/p/d63b5bae9dff]
 1.首先启动redis，进入redis目录终端。输入redis-server回车
 2.导入sql文件，修改数据库与redis连接配置
 3.idea中启动后端项目
-
-### 管理员
-公告管理，沟通信息，收藏列表，企业管理，求职者管理，行业管理，面试管理，消息通知，兼职管理，岗位管理
-
-### 企业
-企业信息管理，兼职管理，岗位管理，沟通记录，面试审核
-
-### 求职者
-求职信息管理，岗位信息，兼职信息，我的收藏，我的面试，企业沟通
 
 
 #### 默认后台账户密码
@@ -113,3 +113,5 @@ WeChat: `Storm_Berserker`
 `网站建设、小程序、H5、APP、各种系统 选题+开题报告+任务书+程序定制+安装调试+项目讲解+论文+答辩PPT`
 
 More info: [悲伤的橘子树](https://berserker287.github.io/)
+
+<p><img align="center" src="https://fank-bucket-oss.oss-cn-beijing.aliyuncs.com/img/%E5%90%88%E4%BD%9C%E7%89%A9%E6%96%99%E6%A0%B7%E5%BC%8F%20(3).png" alt="fankekeke" /></p>
